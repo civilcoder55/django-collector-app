@@ -1,0 +1,40 @@
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+ <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+    <link id="mode" rel="stylesheet" href="{% static 'css/main.css' %}" />   
+ <style>
+      @media only screen and (max-width: 600px) {
+        .article__gallery img {
+          width: 100%;
+          display: block;
+          height: auto;
+        }
+      }
+.article__text{
+color:black;
+}   
+body{
+background-color:white;
+}
+.article__gallery{
+pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: black;
+}
+    </style>
+  </head>
+  <body>
+    <div class="col-12" style="margin-top: 50px;">
+      <div class="article" style="text-align: center;">
+        {{content|safe}}
+      </div>
+    </div>
+  </body>
+  <script src="{% static 'js/scripts.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</html>

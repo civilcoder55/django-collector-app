@@ -1,0 +1,28 @@
+{% extends 'parts/base.html' %} {% load static %} {% block content %}
+<style>
+  @media only screen and (max-width: 600px) {
+    img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+  }
+</style>
+<section class="section section--first">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="section__title" style="text-align: center;" style="text-align: center;">كيف تستخدم خدمتنا</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section section--profile section--last">
+  <div class="container" style="text-align: center;">
+    <h5 class="section__title" style="text-align: center;">Our service ! it's simple</h5>
+<a href="http://g.recordit.co/3FnDyDJ22N.gif" class="article__gallery">
+    <img src="http://g.recordit.co/3FnDyDJ22N.gif" width="900px" height="500px">
+</a>
+  </div>
+</section>
+{% endblock %}

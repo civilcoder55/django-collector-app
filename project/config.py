@@ -1,0 +1,7 @@
+from django.conf import settings
+
+
+SOCIAL_AUTH_TWITTER_KEY = settings.CONSUMER_KEY
+SOCIAL_AUTH_TWITTER_SECRET = settings.CONSUMER_SECRET
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
+SOCIAL_AUTH_LOGIN_URL = 'login/'

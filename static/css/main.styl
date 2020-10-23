@@ -1,0 +1,1014 @@
+$white = #fff
+$black = #000
+
+$red = #FD6060
+$green = #29B474
+
+$tw = #1DA1F2
+$fb = #3B5999
+$ig = #AC2B8E
+
+$purple = #666EE8
+
+// dark
+// $bg = #222831
+// $text = #ECECEC
+// $text2 = #ECECEC
+// $bc = rgba(#ECECEC, .1)
+// $hc = rgba(#ECECEC, .6)
+// $hc2 = #fff
+
+// light
+$bg = #ECECEC
+$text = rgba(#222831, .8)
+$text2 = #ECECEC
+$bc = rgba(#222831, .12)
+$hc = rgba(#222831, .6)
+$hc2 = #222831
+
+@font-face
+	font-family 'cairo-regular'
+	src url("../fonts/cairo-regular-webfont.eot")
+	src url("../fonts/cairo-regular-webfont.eot?#iefix")format("embedded-opentype"),
+		url("../fonts/cairo-regular-webfont.woff2") format("woff2"),
+		url("../fonts/cairo-regular-webfont.woff") format("woff"),
+		url("../fonts/cairo-regular-webfont.ttf") format("truetype"),
+		url("../fonts/cairo-regular-webfont.svg#cairo-regular-webfont") format('svg')
+	font-style normal
+	font-weight normal
+
+@font-face
+	font-family 'cairo-semibold'
+	src url("../fonts/cairo-semibold-webfont.eot")
+	src url("../fonts/cairo-semibold-webfont.eot?#iefix")format("embedded-opentype"),
+		url("../fonts/cairo-semibold-webfont.woff2") format("woff2"),
+		url("../fonts/cairo-semibold-webfont.woff") format("woff"),
+		url("../fonts/cairo-semibold-webfont.ttf") format("truetype"),
+		url("../fonts/cairo-semibold-webfont.svg#cairo-semibold-webfont") format('svg')
+	font-style normal
+	font-weight normal
+
+/*==============================
+	Common styles
+==============================*/
+html
+	-webkit-text-size-adjust 100%
+	-ms-text-size-adjust 100%
+html
+body
+	height 100%
+body
+	font-family 'cairo-regular'
+	background-color $bg
+	-webkit-font-smoothing antialiased
+button
+	padding 0
+	border none
+	background-color transparent
+	transition .4s ease
+	cursor pointer
+	&:focus
+		outline none
+a
+	transition .4s ease
+	&:hover
+	&:active
+	&:focus
+		outline none
+		text-decoration none
+input
+textarea
+select
+	padding 0
+	margin 0
+	border-radius 0
+	-webkit-appearance none
+	-moz-appearance none
+	-ms-appearance none
+	appearance none
+	box-shadow none
+	transition .4s ease
+	&:focus
+		outline none
+
+select::-ms-expand
+	display none
+
+ul
+	margin 0
+	padding 0
+	list-style none
+
+::-moz-selection
+	background $white
+	color $black
+	text-shadow none
+::selection
+	background $white
+	color $black
+	text-shadow none
+
+::-webkit-input-placeholder
+	color rgba($text, .5)
+	opacity 1
+::-moz-placeholder
+	color rgba($text, .5)
+	opacity 1
+:-moz-placeholder
+	color rgba($text, .5)
+	opacity 1
+:-ms-input-placeholder
+	color rgba($text, .5)
+	opacity 1
+
+.container
+	@media (min-width: 1300px)
+		max-width 1230px
+
+.owl-dots
+	display flex
+	flex-direction row
+	justify-content flex-end
+	align-items center
+	margin-top 30px
+	width 100%
+	.owl-dot
+		margin-left 15px
+		span
+			display block
+			width 12px
+			height 12px
+			border-radius 12px
+			border 1px solid $bc
+			background-color transparent
+			transition .4s ease
+		&.active
+			span
+				width 24px
+				background-color $purple
+		&:first-child
+			margin-left 0
+
+/*==============================
+	Header
+==============================*/
+.header
+	position fixed
+	top 0
+	left 0
+	width 100%
+	z-index 99
+	background-color $bg
+	border-bottom 1px solid $bc
+	&__content
+		display flex
+		flex-direction row
+		justify-content space-between
+		align-items center
+		position relative
+		height 70px
+	&__login
+		display flex
+		flex-direction row
+		justify-content center
+		align-items center
+		width 40px
+		height 40px
+		border-radius 6px
+		background-color $purple
+		svg
+			stroke $text2
+			transition .4s ease
+			width 24px
+			height auto
+		span
+			display none
+			font-size 14px
+			text-transform uppercase
+			color $text2
+			transition .4s ease
+			letter-spacing .4px
+		&:hover
+			svg
+				stroke $white
+			span
+				color $white
+	&__color
+		margin-right auto
+		margin-left 30px
+		svg
+			width 24px
+			height auto
+			stroke $hc
+			transition .4s ease
+		&:hover
+			svg
+				stroke $hc2
+	&__logo
+		margin-left auto
+		margin-right 42px
+	&__menu
+		position absolute
+		width 24px
+		height 22px
+		display block
+		right 0
+		top 24px
+		span
+			position absolute
+			left 0
+			width 24px
+			height 2px
+			background-color $hc2
+			border-radius 3px
+			transition .5s
+			opacity 1
+			&:first-child
+				top 0
+			&:nth-child(2)
+				top 10px
+				width 16px
+			&:last-child
+				top 20px
+				width 8px
+		&--active
+			span
+				&:first-child
+					transform rotate(45deg)
+					top 10px
+				&:nth-child(2)
+					opacity 0
+				&:last-child
+					width 24px
+					transform rotate(-45deg)
+					top 10px
+	&__nav
+		position fixed
+		top 70px
+		bottom 0
+		right 0
+		width 300px
+		background-color $bg
+		z-index 100
+		border-top 1px solid $bc
+		border-left 1px solid $bc
+		display flex
+		flex-direction column
+		justify-content flex-start
+		align-items flex-end
+		padding 20px 15px
+		transition .4s ease
+		transform translateX(300px)
+		a
+			font-size 14px
+			color $hc2
+			margin-bottom 20px
+			letter-spacing .4px
+			&:last-child
+				margin-bottom 0
+			&:hover
+				color $purple
+		&--active
+			transform translateX(0)
+	@media (min-width: 768px)
+		&__login
+			width 120px
+			svg
+				display none
+			span
+				display block
+	@media (min-width: 1200px)
+		&__menu
+			display none
+		&__logo
+			margin-right 0
+			margin-left 100px
+		&__nav
+			transform translateX(0)
+			position relative
+			top auto
+			bottom auto
+			right auto
+			width auto
+			border none
+			flex-direction row-reverse
+			justify-content flex-end
+			align-items center
+			padding 0
+			margin-left auto
+			a
+				margin-bottom 0
+				margin-left 60px
+
+/*==============================
+	Section
+==============================*/
+.section
+	padding-top 40px
+	&--last
+		padding-bottom 70px
+	&--first
+		padding-top 110px
+	&--profile
+		min-height calc(100vh - 246px)
+	&__title
+		font-size 36px
+		color $text
+		font-family 'cairo-semibold'
+		font-weight normal
+		text-align right
+		margin-bottom 0
+		margin-top 30px
+	&__title2
+		font-size 32px
+		color $text
+		font-family 'cairo-semibold'
+		font-weight normal
+		text-align right
+		margin-bottom 0
+		margin-top 30px
+	&__more
+		display flex
+		flex-direction row
+		justify-content center
+		align-items center
+		height 50px
+		width 140px
+		border-radius 6px
+		background-color $purple
+		color $text2
+		text-transform uppercase
+		font-size 14px
+		font-family 'cairo-semibold'
+		letter-spacing .4px
+		margin 50px auto 0
+		&:hover
+			color $white
+	@media (min-width: 768px)
+		&__title
+			line-height 100%
+			&--article
+				line-height normal
+	@media (min-width: 1200px)
+		&__title
+			&--article
+				padding-left 50%
+				line-height normal
+
+/*==============================
+	Post
+==============================*/
+.post
+	position relative
+	border 1px solid $bc
+	border-radius 6px
+	padding 20px
+	margin-top 30px
+	&__img
+		width 100%
+		border-radius 6px
+		overflow hidden
+		img
+			display block
+			width 100%
+	&__meta
+		display flex
+		flex-direction row
+		justify-content flex-end
+		align-items center
+		margin-top 20px
+		span
+			color $text
+			font-size 12px
+			margin-left 20px
+			line-height 100%
+	&__title
+		display block
+		width 100%
+		height 120px
+		font-size 16px
+		line-height 28px
+		font-weight normal
+		text-align right
+		color $hc2
+		margin-bottom 0
+		margin-top 20px
+		overflow hidden
+	&__wrap
+		display flex
+		flex-direction row
+		justify-content space-between
+		align-items center
+		margin-top 20px
+	&__link
+		font-size 14px
+		line-height 100%
+		color $purple
+		letter-spacing .4px
+		&:hover
+			color $purple
+			text-decoration underline
+	&__comments
+		display flex
+		flex-direction row
+		justify-content flex-end
+		align-items center
+		color $text
+		font-size 12px
+		svg
+			stroke $text
+			width 14px
+			height auto
+			margin-right 5px
+
+/*==============================
+	Article
+==============================*/
+.article
+	&__wrap
+		display flex
+		flex-direction column
+		justify-content flex-end
+		align-items flex-end
+		margin-top 20px
+	&__meta
+		display flex
+		flex-direction row
+		justify-content flex-end
+		align-items center
+		order 1
+		li
+			display flex
+			flex-direction row
+			justify-content flex-start
+			align-items center
+			margin-left 30px
+			span
+				font-size 12px
+				color $text
+			svg
+				stroke $text
+				width 14px
+				height auto
+				margin-right 5px
+			&:first-child
+				margin-left 0
+	&__share
+		order 2
+		display flex
+		flex-direction row
+		justify-content flex-start
+		align-items center
+		margin-top 20px
+		svg
+			width 16px
+			height auto
+		span
+			font-size 12px
+			color $text
+			letter-spacing .2px
+		a
+			margin-left 15px
+			&.fb
+				svg
+					fill $fb
+			&.tw
+				svg
+					fill $tw
+			&.ig
+				svg
+					fill $ig
+	&__img
+		display block
+		width 100%
+		margin-top 40px
+		border-radius 6px
+		overflow hidden
+		margin-bottom 40px
+		img
+			width 100%
+			display block
+	&__gallery
+		display block
+		width 100%
+		margin-top 30px
+		border-radius 6px
+		overflow hidden
+		img
+			width 100%
+			display block
+	&__text
+		font-size 16px
+		line-height 28px
+		color $hc2
+		margin-bottom 0
+		margin-top 30px
+		text-align right
+		b
+			font-family 'cairo-semibold'
+			font-weight normal
+	&__list
+		margin-top 30px
+		text-align right
+		li
+			font-size 16px
+			line-height 28px
+			color $hc2
+			position relative
+			padding-right 22px
+			&:before
+				content ''
+				position absolute
+				display block
+				width 6px
+				height 6px
+				border-radius 50%
+				right 0
+				top 50%
+				margin-top -3px
+				background-color $purple
+	&__actions
+		display flex
+		flex-direction row
+		justify-content space-between
+		align-items center
+		width 100%
+		margin-top 40px
+	&__pdf
+		display flex
+		flex-direction row
+		justify-content center
+		align-items center
+		width 150px
+		height 36px
+		border-radius 6px
+		background-color $purple
+		font-size 14px
+		color $text2
+		font-family 'cairo-semibold'
+		svg
+			stroke $white
+			width 16px
+			height auto
+			margin-right 5px
+		&:hover
+			color $white
+	&__rate
+		display inline-flex
+		flex-direction row
+		justify-content flex-end
+		align-items center
+		button
+			display flex
+			flex-direction row
+			justify-content center
+			align-items center
+			color $text
+			font-size 14px
+			margin-left 25px
+			position relative
+			height 30px
+			svg
+				width 18px
+				height auto
+				transition .4s ease
+				margin-right 5px
+			&:first-child
+				margin-left 0
+				svg
+					stroke $red
+			&:last-child
+				svg
+					stroke $green
+	@media (min-width: 768px)
+		&__wrap
+			flex-direction row
+			justify-content space-between
+			align-items center
+		&__meta
+			order 2
+		&__share
+			order 1
+			margin-top 0
+
+/*==============================
+	Comments
+==============================*/
+.comments
+	padding-top 20px
+	margin-top 50px
+	border-top 1px solid $bc
+	width 100%
+	position relative
+	display flex
+	flex-direction column
+	justify-content flex-start
+	align-items flex-end
+	&__item
+		position relative
+		display flex
+		flex-direction column
+		justify-content flex-start
+		align-items flex-end
+		margin-top 30px
+	&__autor
+		display block
+		position relative
+		padding-right 64px
+		height 44px
+	&__avatar
+		position absolute
+		top 0
+		right 0
+		width 44px
+		height auto
+		border-radius 50%
+	&__name
+		display block
+		font-size 16px
+		color $hc2
+		line-height 22px
+		letter-spacing .4px
+		margin-bottom 5px
+		font-family 'cairo-semibold'
+		text-align right
+	&__time
+		display block
+		font-size 12px
+		color $text
+		line-height 14px
+		text-align right
+	&__text
+		margin-top 15px
+		margin-bottom 0
+		width 100%
+		font-size 16px
+		line-height 26px
+		color $hc2
+		text-align right
+	@media (min-width: 992px)
+		&__item
+			width 66%
+	@media (min-width: 1200px)
+		&__item
+			width 50%
+
+/*==============================
+	Form
+==============================*/
+.form
+	padding 30px
+	border 1px solid $bc
+	border-radius 6px
+	margin-top 30px
+	width 100%
+	&--comment
+		margin-top 50px
+	&--error
+		margin-top 0
+		.form__title
+			text-align center
+			font-size 26px
+		.form__text
+			font-size 14px
+			line-height 24px
+			margin-top 20px
+	&__title
+		font-size 20px
+		color $hc2
+		line-height 100%
+		display block
+		width 100%
+		text-align right
+		margin-bottom 0
+		font-weight normal
+	&__input
+		width 100%
+		height 44px
+		border-radius 6px
+		border 1px solid $bc
+		margin-top 30px
+		background-color $bg
+		padding 0 20px
+		font-size 14px
+		letter-spacing .4px
+		color $hc2
+		&:focus
+			border-color rgba($purple, .5)
+		&--margin
+			margin-top 10px
+	&__label
+		margin-top 30px
+		margin-bottom 0
+		font-weight normal
+		font-size 14px
+		color rgba($text, .5)
+		text-align right
+		width 100%
+		letter-spacing .4px
+	&__textarea
+		width 100%
+		height 170px
+		border-radius 6px
+		border 1px solid $bc
+		margin-top 30px
+		background-color $bg
+		padding 20px
+		font-size 14px
+		letter-spacing .4px
+		color $hc2
+		resize none
+		&:focus
+			border-color rgba($purple, .5)
+	&__gallery
+		position relative
+		width 100%
+		height 44px
+		margin-top 10px
+		overflow hidden
+		input
+			position absolute
+			left -9999px
+			opacity 0
+			z-index 1
+		label
+			display flex
+			flex-direction row
+			justify-content flex-start
+			align-items center
+			position relative
+			z-index 2
+			height 44px
+			color $hc2
+			padding 0 50px 0 20px
+			letter-spacing .4px
+			background-color $bg
+			margin 0
+			width 100%
+			font-weight normal
+			font-size 14px
+			cursor pointer
+			transition .4s ease
+			border 1px solid $bc
+			border-radius 6px
+			position relative
+			svg
+				width 16px
+				height auto
+				position absolute
+				right 20px
+				top 50%
+				margin-top -8px
+				opacity .5
+				stroke $text
+			&:hover
+				color $hc2
+	&__btn
+		display flex
+		flex-direction row
+		justify-content center
+		align-items center
+		height 50px
+		width 140px
+		border-radius 6px
+		background-color $purple
+		color $text2
+		text-transform uppercase
+		font-size 14px
+		font-family 'cairo-semibold'
+		letter-spacing .4px
+		margin 30px 0 0 auto
+		&:hover
+			color $white
+		&--big
+			width 100%
+			margin 40px 0 0
+		&--tw
+			width 100%
+			margin 20px 0 0
+			text-transform inherit
+			background-color $tw
+			svg
+				width 18px
+				height auto
+				margin-left 10px
+				fill $white
+	&__or
+		display flex
+		flex-direction row
+		justify-content center
+		align-items center
+		margin-top 20px
+		font-size 14px
+		color rgba($text, .5)
+		letter-spacing .4px
+		position relative
+		span
+			padding 0 20px
+			position relative
+			z-index 2
+			background-color $bg
+		&:before
+			content ''
+			position absolute
+			display block
+			left 0
+			right 0
+			top 50%
+			height 1px
+			background-color $bc
+			z-index 1
+	&__text
+		display block
+		width 100%
+		text-align center
+		font-size 12px
+		line-height 20px
+		color $text
+		margin-bottom 0
+		margin-top 30px
+		letter-spacing .4px
+		a
+			color $purple
+			&:hover
+				color $purple
+				text-decoration underline
+	&__checkbox
+		width 100%
+		text-align right
+		margin-top 30px
+		input
+			&:not(:checked)
+			&:checked
+				position absolute
+				left -9999px
+			&:not(:checked) + label
+			&:checked + label
+				font-size 12px
+				color rgba($text, .5)
+				font-weight normal
+				position relative
+				cursor pointer
+				padding-right 35px
+				line-height 22px
+				margin 0
+				text-align right
+				letter-spacing .2px
+				a
+					color $purple
+					&:hover
+						color $purple
+			&:not(:checked) + label:before
+			&:checked + label:before
+				content ''
+				position absolute
+				right 0
+				top 0
+				width 22px
+				height 22px
+				background-color $bg
+				border 1px solid $bc
+				border-radius 6px
+			&:not(:checked) + label:after
+			&:checked + label:after
+				content ''
+				position absolute
+				right 0
+				top 0
+				width 22px
+				height 22px
+				text-align center
+				transition .4s ease
+				background url('../img/checkmark-outline.svg') no-repeat center / 14px auto
+			&:not(:checked) + label:after
+				opacity 0
+				transform scale(0)
+			&:checked + label:after
+				opacity 1
+				transform scale(1)
+
+/*==============================
+	Profile
+==============================*/
+.profile
+	padding 30px
+	border 1px solid $bc
+	border-radius 6px
+	margin-top 30px
+	&__head
+		border-bottom 1px solid $bc
+		padding-bottom 30px
+		display flex
+		flex-direction row
+		justify-content flex-end
+		align-items center
+		img
+			width 44px
+			height auto
+			margin-left 20px
+		span
+			font-size 18px
+			font-family 'cairo-semibold'
+			color $text
+			letter-spacing .4px
+	&__nav
+		margin-top 20px
+		display flex
+		flex-direction column
+		justify-content flex-start
+		align-items flex-end
+		a
+			font-size 16px
+			line-height 36px
+			text-align right
+			letter-spacing .4px
+			color $text
+			&:hover
+				color $hc2
+			&.active
+				color $purple
+				cursor default
+				&:hover
+					color $purple
+	&__btn
+		display flex
+		flex-direction row
+		justify-content center
+		align-items center
+		height 44px
+		width 88px
+		border-radius 6px
+		background-color rgba($text, .1)
+		color $purple
+		text-transform uppercase
+		font-size 14px
+		font-family 'cairo-semibold'
+		letter-spacing .4px
+		margin 64px 0 0 auto
+		&:hover
+			color $hc2
+
+/*==============================
+	Page
+==============================*/
+.page
+	display flex
+	flex-direction column
+	justify-content center
+	align-items center
+	height auto
+	min-height 100vh
+	padding 40px 0
+	&__logo
+		margin-bottom 10px
+
+/*==============================
+	Footer
+==============================*/
+.footer
+	position relative
+	background-color $bg
+	border-top 1px solid $bc
+	&__content
+		display flex
+		flex-direction row
+		justify-content space-between
+		align-items center
+		height 70px
+	&__copyright
+		font-size 12px
+		color $text
+		line-height 16px
+		font-weight normal
+		margin 0
+		letter-spacing .4px
+		a
+			color $text
+			&:hover
+				color $purple
+
+/*==============================
+	Modal
+==============================*/
+.mfp-container
+	padding 0
+
+.mfp-fade.mfp-bg
+	opacity 0
+	transition all .4s ease-in-out
+
+.mfp-fade.mfp-bg.mfp-ready
+	opacity .7
+
+.mfp-fade.mfp-bg.mfp-removing
+	opacity 0
+
+.mfp-fade.mfp-wrap .mfp-content
+	opacity 0
+	transition all .4s ease-in-out
+
+.mfp-fade.mfp-wrap.mfp-ready .mfp-content
+	opacity 1
+
+.mfp-fade.mfp-wrap.mfp-removing .mfp-content
+	opacity 0

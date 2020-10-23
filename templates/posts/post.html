@@ -1,0 +1,426 @@
+{% extends 'parts/base.html' %} {% load static %} {% block content %}
+<style>
+  @media only screen and (max-width: 600px) {
+    .article__gallery img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+  }
+  .article__gallery img {
+   margin: 0 auto;
+  display:block;
+ max-width:700px;
+max-height:600px;
+    }
+  .article__rate button.ilike:last-child svg {
+    stroke: #29b474;
+  }
+  .article__rate button.idislike:first-child svg {
+    stroke: #fd6060;
+  }
+.twitter-tweet{
+margin:0 auto;
+}
+
+</style>
+<section class="section section--first">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="comments__autor" style="height: unset; padding-right:100px">
+          <img class="comments__avatar" src="{{post.author_photo}}" alt="" style="width: 88px;height:88px">
+          <span class="comments__name"><a href="https://twitter.com/{{post.author_screen_name}}" target="_blank">{{post.author_name}}</a></span>
+          <p class="comments__text desc">{{post.author_describtion}}</p></span
+        ></span>
+        </div>
+
+
+
+
+
+
+      </div>
+      <div class="col-12" style="margin-top: 50px;">
+        <div class="article" style="text-align: center;">
+          <div class="article__wrap" style="margin-bottom: 30px;">
+            <div class="article__share">
+              <span>Share:</span>
+              <a class="fb" href="#"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M455.27,32H56.73A24.74,24.74,0,0,0,32,56.73V455.27A24.74,24.74,0,0,0,56.73,480H256V304H202.45V240H256V189c0-57.86,40.13-89.36,91.82-89.36,24.73,0,51.33,1.86,57.51,2.68v60.43H364.15c-28.12,0-33.48,13.3-33.48,32.9V240h67l-8.75,64H330.67V480h124.6A24.74,24.74,0,0,0,480,455.27V56.73A24.74,24.74,0,0,0,455.27,32Z"
+                  /></svg
+              ></a>
+              <a class="tw" href="#"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M496,109.5a201.8,201.8,0,0,1-56.55,15.3,97.51,97.51,0,0,0,43.33-53.6,197.74,197.74,0,0,1-62.56,23.5A99.14,99.14,0,0,0,348.31,64c-54.42,0-98.46,43.4-98.46,96.9a93.21,93.21,0,0,0,2.54,22.1,280.7,280.7,0,0,1-203-101.3A95.69,95.69,0,0,0,36,130.4C36,164,53.53,193.7,80,211.1A97.5,97.5,0,0,1,35.22,199v1.2c0,47,34,86.1,79,95a100.76,100.76,0,0,1-25.94,3.4,94.38,94.38,0,0,1-18.51-1.8c12.51,38.5,48.92,66.5,92.05,67.3A199.59,199.59,0,0,1,39.5,405.6,203,203,0,0,1,16,404.2,278.68,278.68,0,0,0,166.74,448c181.36,0,280.44-147.7,280.44-275.8,0-4.2-.11-8.4-.31-12.5A198.48,198.48,0,0,0,496,109.5Z"
+                  /></svg
+              ></a>
+              <a class="ig" href="#"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M349.33,69.33a93.62,93.62,0,0,1,93.34,93.34V349.33a93.62,93.62,0,0,1-93.34,93.34H162.67a93.62,93.62,0,0,1-93.34-93.34V162.67a93.62,93.62,0,0,1,93.34-93.34H349.33m0-37.33H162.67C90.8,32,32,90.8,32,162.67V349.33C32,421.2,90.8,480,162.67,480H349.33C421.2,480,480,421.2,480,349.33V162.67C480,90.8,421.2,32,349.33,32Z"
+                  />
+                  <path d="M377.33,162.67a28,28,0,1,1,28-28A27.94,27.94,0,0,1,377.33,162.67Z" />
+                  <path
+                    d="M256,181.33A74.67,74.67,0,1,1,181.33,256,74.75,74.75,0,0,1,256,181.33M256,144A112,112,0,1,0,368,256,112,112,0,0,0,256,144Z"
+                  /></svg
+              ></a>
+            </div>
+
+            <ul class="article__meta">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M431,320.6c-1-3.6,1.2-8.6,3.3-12.2a33.68,33.68,0,0,1,2.1-3.1A162,162,0,0,0,464,215c.3-92.2-77.5-167-173.7-167C206.4,48,136.4,105.1,120,180.9a160.7,160.7,0,0,0-3.7,34.2c0,92.3,74.8,169.1,171,169.1,15.3,0,35.9-4.6,47.2-7.7s22.5-7.2,25.4-8.3a26.44,26.44,0,0,1,9.3-1.7,26,26,0,0,1,10.1,2L436,388.6a13.52,13.52,0,0,0,3.9,1,8,8,0,0,0,8-8,12.85,12.85,0,0,0-.5-2.7Z"
+                    style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px;"
+                  />
+                  <path
+                    d="M66.46,232a146.23,146.23,0,0,0,6.39,152.67c2.31,3.49,3.61,6.19,3.21,8s-11.93,61.87-11.93,61.87a8,8,0,0,0,2.71,7.68A8.17,8.17,0,0,0,72,464a7.26,7.26,0,0,0,2.91-.6l56.21-22a15.7,15.7,0,0,1,12,.2c18.94,7.38,39.88,12,60.83,12A159.21,159.21,0,0,0,284,432.11"
+                    style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px;"
+                  /></svg
+                ><span>{{comments.count}}</span>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M256,64C150,64,64,150,64,256s86,192,192,192,192-86,192-192S362,64,256,64Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  />
+                  <polyline
+                    points="256 128 256 272 352 272"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  /></svg
+                ><span>{{post.created_on}}</span>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M344,144c-3.92,52.87-44,96-88,96s-84.15-43.12-88-96c-4-55,35-96,88-96S348,90,344,144Z"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  />
+                  <path
+                    d="M256,304c-87,0-175.3,48-191.64,138.6C62.39,453.52,68.57,464,80,464H432c11.44,0,17.62-10.48,15.65-21.4C431.3,352,343,304,256,304Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  /></svg
+                ><span>by<a href="https://twitter.com/{{post.author_screen_name}}" target="_blank"> @{{post.author_screen_name}}</a></span>
+              </li>
+            </ul>
+          </div>
+
+          {{post.content|safe}}
+          <div class="article__actions">
+            <a href="/printpdf/{{post.post_id}}" class="article__pdf"
+              ><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                <path
+                  d="M416,221.25V416a48,48,0,0,1-48,48H144a48,48,0,0,1-48-48V96a48,48,0,0,1,48-48h98.75a32,32,0,0,1,22.62,9.37L406.63,198.63A32,32,0,0,1,416,221.25Z"
+                  style="fill: none; stroke-linejoin: round; stroke-width: 32px;"
+                />
+                <path
+                  d="M256,56V176a32,32,0,0,0,32,32H408"
+                  style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                /></svg
+              >Download PDF</a
+            >
+
+            <div class="article__rate">
+              {% if taste.user_does_like %}
+
+              <button type="button" id="dislike" class="dislike">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M192,53.84S208,48,256,48s74,16,96,32h64a64,64,0,0,1,64,64v48a64,64,0,0,1-64,64H386a32.34,32.34,0,0,0-27.37,15.4S350,290.19,324,335.22,248,448,240,464c-29,0-43-22-34-47.71,10.28-29.39,23.71-54.38,27.46-87.09.54-4.78-3.14-12-8-12L96,307"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M96,241l80,2c20,1.84,32,12.4,32,30h0c0,17.6-14,28.84-32,30l-80,4c-17.6,0-32-16.4-32-34v-.17A32,32,0,0,1,96,241Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M64,176l112,2c18,.84,32,12.41,32,30h0c0,17.61-14,28.86-32,30L64,240a32.1,32.1,0,0,1-32-32h0A32.1,32.1,0,0,1,64,176Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M112,48l64,3c21,1.84,32,11.4,32,29h0c0,17.6-14.4,30-32,30l-64,2A32.09,32.09,0,0,1,80,80h0A32.09,32.09,0,0,1,112,48Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M80,112l96,2c19,.84,32,12.4,32,30h0c0,17.6-13,28.84-32,30l-96,2a32.09,32.09,0,0,1-32-32h0A32.09,32.09,0,0,1,80,112Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path></svg
+                ><span id="disnum">{{taste.post_dislikes}}</span>
+              </button>
+              <button type="button" id="like" class="ilike">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M320,458.16S304,464,256,464s-74-16-96-32H96a64,64,0,0,1-64-64V320a64,64,0,0,1,64-64h30a32.34,32.34,0,0,0,27.37-15.4S162,221.81,188,176.78,264,64,272,48c29,0,43,22,34,47.71-10.28,29.39-23.71,54.38-27.46,87.09-.54,4.78,3.14,12,7.95,12L416,205"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M416,271l-80-2c-20-1.84-32-12.4-32-30h0c0-17.6,14-28.84,32-30l80-4c17.6,0,32,16.4,32,34v.17A32,32,0,0,1,416,271Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M448,336l-112-2c-18-.84-32-12.41-32-30h0c0-17.61,14-28.86,32-30l112-2a32.1,32.1,0,0,1,32,32h0A32.1,32.1,0,0,1,448,336Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M400,464l-64-3c-21-1.84-32-11.4-32-29h0c0-17.6,14.4-30,32-30l64-2a32.09,32.09,0,0,1,32,32h0A32.09,32.09,0,0,1,400,464Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M432,400l-96-2c-19-.84-32-12.4-32-30h0c0-17.6,13-28.84,32-30l96-2a32.09,32.09,0,0,1,32,32h0A32.09,32.09,0,0,1,432,400Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path></svg
+                ><span id="liknum">{{taste.post_likes}}</span>
+              </button>
+
+              {% elif taste.user_does_dislike %}
+
+              <button type="button" id="dislike" class="idislike">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M192,53.84S208,48,256,48s74,16,96,32h64a64,64,0,0,1,64,64v48a64,64,0,0,1-64,64H386a32.34,32.34,0,0,0-27.37,15.4S350,290.19,324,335.22,248,448,240,464c-29,0-43-22-34-47.71,10.28-29.39,23.71-54.38,27.46-87.09.54-4.78-3.14-12-8-12L96,307"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M96,241l80,2c20,1.84,32,12.4,32,30h0c0,17.6-14,28.84-32,30l-80,4c-17.6,0-32-16.4-32-34v-.17A32,32,0,0,1,96,241Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M64,176l112,2c18,.84,32,12.41,32,30h0c0,17.61-14,28.86-32,30L64,240a32.1,32.1,0,0,1-32-32h0A32.1,32.1,0,0,1,64,176Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M112,48l64,3c21,1.84,32,11.4,32,29h0c0,17.6-14.4,30-32,30l-64,2A32.09,32.09,0,0,1,80,80h0A32.09,32.09,0,0,1,112,48Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M80,112l96,2c19,.84,32,12.4,32,30h0c0,17.6-13,28.84-32,30l-96,2a32.09,32.09,0,0,1-32-32h0A32.09,32.09,0,0,1,80,112Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path></svg
+                ><span id="disnum">{{taste.post_dislikes}}</span>
+              </button>
+              <button type="button" id="like" class="like">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M320,458.16S304,464,256,464s-74-16-96-32H96a64,64,0,0,1-64-64V320a64,64,0,0,1,64-64h30a32.34,32.34,0,0,0,27.37-15.4S162,221.81,188,176.78,264,64,272,48c29,0,43,22,34,47.71-10.28,29.39-23.71,54.38-27.46,87.09-.54,4.78,3.14,12,7.95,12L416,205"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M416,271l-80-2c-20-1.84-32-12.4-32-30h0c0-17.6,14-28.84,32-30l80-4c17.6,0,32,16.4,32,34v.17A32,32,0,0,1,416,271Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M448,336l-112-2c-18-.84-32-12.41-32-30h0c0-17.61,14-28.86,32-30l112-2a32.1,32.1,0,0,1,32,32h0A32.1,32.1,0,0,1,448,336Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M400,464l-64-3c-21-1.84-32-11.4-32-29h0c0-17.6,14.4-30,32-30l64-2a32.09,32.09,0,0,1,32,32h0A32.09,32.09,0,0,1,400,464Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M432,400l-96-2c-19-.84-32-12.4-32-30h0c0-17.6,13-28.84,32-30l96-2a32.09,32.09,0,0,1,32,32h0A32.09,32.09,0,0,1,432,400Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path></svg
+                ><span id="liknum">{{taste.post_likes}}</span>
+              </button>
+
+              {% else %}
+
+              <button type="button" id="dislike" class="dislike">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M192,53.84S208,48,256,48s74,16,96,32h64a64,64,0,0,1,64,64v48a64,64,0,0,1-64,64H386a32.34,32.34,0,0,0-27.37,15.4S350,290.19,324,335.22,248,448,240,464c-29,0-43-22-34-47.71,10.28-29.39,23.71-54.38,27.46-87.09.54-4.78-3.14-12-8-12L96,307"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M96,241l80,2c20,1.84,32,12.4,32,30h0c0,17.6-14,28.84-32,30l-80,4c-17.6,0-32-16.4-32-34v-.17A32,32,0,0,1,96,241Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M64,176l112,2c18,.84,32,12.41,32,30h0c0,17.61-14,28.86-32,30L64,240a32.1,32.1,0,0,1-32-32h0A32.1,32.1,0,0,1,64,176Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M112,48l64,3c21,1.84,32,11.4,32,29h0c0,17.6-14.4,30-32,30l-64,2A32.09,32.09,0,0,1,80,80h0A32.09,32.09,0,0,1,112,48Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M80,112l96,2c19,.84,32,12.4,32,30h0c0,17.6-13,28.84-32,30l-96,2a32.09,32.09,0,0,1-32-32h0A32.09,32.09,0,0,1,80,112Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path></svg
+                ><span id="disnum">{{taste.post_dislikes}}</span>
+              </button>
+              <button type="button" id="like" class="like">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                  <path
+                    d="M320,458.16S304,464,256,464s-74-16-96-32H96a64,64,0,0,1-64-64V320a64,64,0,0,1,64-64h30a32.34,32.34,0,0,0,27.37-15.4S162,221.81,188,176.78,264,64,272,48c29,0,43,22,34,47.71-10.28,29.39-23.71,54.38-27.46,87.09-.54,4.78,3.14,12,7.95,12L416,205"
+                    style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M416,271l-80-2c-20-1.84-32-12.4-32-30h0c0-17.6,14-28.84,32-30l80-4c17.6,0,32,16.4,32,34v.17A32,32,0,0,1,416,271Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M448,336l-112-2c-18-.84-32-12.41-32-30h0c0-17.61,14-28.86,32-30l112-2a32.1,32.1,0,0,1,32,32h0A32.1,32.1,0,0,1,448,336Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M400,464l-64-3c-21-1.84-32-11.4-32-29h0c0-17.6,14.4-30,32-30l64-2a32.09,32.09,0,0,1,32,32h0A32.09,32.09,0,0,1,400,464Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path>
+                  <path
+                    d="M432,400l-96-2c-19-.84-32-12.4-32-30h0c0-17.6,13-28.84,32-30l96-2a32.09,32.09,0,0,1,32,32h0A32.09,32.09,0,0,1,432,400Z"
+                    style="fill: none; stroke-miterlimit: 10; stroke-width: 32px;"
+                  ></path></svg
+                ><span id="liknum">{{taste.post_likes}}</span>
+              </button>
+
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <ul class="comments">
+         {% for comment in comments %}
+          <li class="comments__item">
+            <div class="comments__autor">
+              <img class="comments__avatar" src="{{comment.user.profile_pic.pic.url}}" alt="" />
+              <span class="comments__name">{{comment.user.username}}</span>
+              <span class="comments__time">{{comment.created_on}}</span>
+            </div>
+
+            <p class="comments__text">{{comment.text}}</p>
+          </li>
+
+          {% endfor %} 
+        </ul>
+      </div>
+
+      <div class="col-12">
+        {% if user.is_authenticated %}
+        <form method="POST" class="form form--comment">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-12">
+              <h4 class="form__title">Add a comment</h4>
+            </div>
+            <div class="col-12">
+              {{comment_form.text}}
+            </div>
+
+            <div class="col-12">
+              <button class="form__btn" type="submit">Comment</button>
+            </div>
+          </div>
+        </form>
+        {% else %}
+        <form class="form form--comment">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="form__title">Add a comment</h4>
+            </div>
+            <div class="col-12">
+              {{comment_form.text}}
+            </div>
+
+            <div class="col-12">
+              <button class="form__btn" type="button" onclick="alert()">Comment</button>
+            </div>
+          </div>
+        </form>
+        <script src="{% static 'js/swal.js' %}"></script>
+        <script>
+          function alert() {
+            swal("please login!", "You should be a user to comment!", "error");
+          }
+        </script>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--last">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="section__title2">Similar news</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %} {% block script %} {% if not user.is_authenticated %}
+<script>
+  $(document).ready(() => {
+    $(".form__textarea").attr("disabled", "");
+  });
+</script>
+{% endif %} {% if user.is_authenticated %}
+<script>
+  function sendTaste(type){
+    $.ajax({
+      url: `${window.location.pathname}/${type}`,
+      success: function (data) {
+        $("#liknum").text(data.post_likes);
+        $("#disnum").text(data.post_dislikes);
+        if (data.user_does_like && !data.user_does_dislike) {
+          $("#like").removeClass("like").addClass("ilike");
+          $("#dislike").removeClass("idislike").addClass("dislike");
+        } else if (!data.user_does_like && !data.user_does_dislike){
+          $("#like").removeClass("ilike").addClass("like");
+          $("#dislike").removeClass("idislike").addClass("dislike");
+        }else if (!data.user_does_like && data.user_does_dislike){
+          $("#dislike").removeClass("dislike").addClass("idislike");
+          $("#like").removeClass("ilike").addClass("like");
+        }
+      },
+    });
+  }
+  $(document).ready(function (e) {
+    $("#like").on('click',()=>sendTaste('like'));
+    $("#dislike").on('click',()=>sendTaste('dislike'))
+  });
+</script>
+{% else %}
+<script>
+  $(document).ready(function (e) {
+    $("#like").click(function (e) {
+      swal("please login!", "You should be a user to like!", "error");
+    });
+    $("#dislike").click(function (e) {
+      swal("please login!", "You should be a user to dislike!", "error");
+    });
+  });
+</script>
+{% endif %}
+<script>
+function isUnicode(str) {
+	var letters = [];
+	for (var i = 0; i <= str.length; i++) {
+		letters[i] = str.substring((i - 1), i);
+		if (letters[i].charCodeAt() > 255) { return true; }
+	}
+	return false;
+}
+ $(document).ready(function (e) { 
+
+document.querySelectorAll('.article__text').forEach((e)=>{
+if(isUnicode(e.innerText)){
+    e.style.direction='rtl'
+}
+})
+document.querySelectorAll('.desc').forEach((e)=>{
+if(isUnicode(e.innerText)){e.style.direction='rtl'}})  
+
+});
+</script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}
+

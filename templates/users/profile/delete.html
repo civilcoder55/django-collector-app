@@ -1,0 +1,70 @@
+
+ {% extends 'parts/base.html' %} 
+ {% load static %}
+ {% load custom_tags %}
+ {% block content %}
+	<section class="section section--first">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h1 class="section__title">Profile</h1>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--profile section--last">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-7 col-lg-8 order-2 order-md-1">
+          {% if messages %}
+          <script src="{% static 'js/swal.js' %}"></script>
+            {% for message in messages %}
+            <script>
+              swal("{% if message.level == 25 %} Success {% else %} Something is Wrong {% endif %} ", "{{message}}", "{{message.tags}}");
+            </script>
+            {% endfor %} {% endif %}
+					<form action="" method="POST" class="form">
+            {% csrf_token %}
+						<div class="row">
+							<div class="col-12">
+								<h4 class="form__title">Account deletion</h4>
+							</div>
+              <h5 style="font-size: 20px;color: #342ead;width: 100%;text-align: center;margin-top:20px;">Permanently remove your account using the button below.
+               <span style="color: red;">Warning, this action is permanent.</span> </h5>
+              <div class="col-12">
+                <button class="form__btn" type="submit" style="width: 100%;">Delete Account</button>
+            </div>
+						</div>
+          </form>
+           
+				</div>
+
+				<div class="col-12 col-md-5 col-lg-4 order-1 order-md-2">
+					<div class="profile">
+						<div class="profile__head">
+							<span>{{user.first_name}} {{user.last_name}}</span>
+							<img src="{{user.profile_pic.pic.url}}" alt="">
+						</div>
+						<nav class="profile__nav">
+							<a href="{% url 'profile' %}">Profile details</a>
+							<a href="{% url 'password' %}">Change password</a>
+              <a href="{% url 'device' %}">Account security</a>
+              <a href="{% url 'social' %}">Social Accounts</a>
+              <a class="active" href="{% url 'delete' %}">Delete Account</a>
+						</nav>
+						<a class="profile__btn" href="{% url 'logout' %}"">LOGOUT</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{% endblock %}
+
+
+
+
+              
+
+          

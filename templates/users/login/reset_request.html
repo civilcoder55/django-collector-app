@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  {% load custom_tags %}
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<title>The Collector | Password Reset</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+				<div class="page">
+					<a href="{% url 'home' %}" class="page__logo">
+						<img src="{% static 'img/logo.png' %}" alt="">
+					</a>
+
+					<form method="POST" class="form">
+						{% csrf_token %}
+            {% if messages %}
+                <script src="{% static 'js/swal.js' %}"></script>
+              {% for error in messages %}
+                  <script>
+                    swal("Something is Wrong", "{{error}}", "error");
+                  </script>
+              {% endfor %} 
+            {% endif %}
+						<h4 class="form__title">Password Reset</h4>
+
+            {{form.email | remove_attr:'autofocus'}}
+
+						<button class="form__btn form__btn--big" type="submit">Reset</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="{% static 'js/scripts.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
+
+
+
