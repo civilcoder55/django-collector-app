@@ -36,17 +36,17 @@
 <section class="section section--last">
   <div class="container">
     <div class="row infinite-container">
-      {% for obj,num in posts_metadata.items %}
+      {% for post in posts %}
       <div class="col-12 col-md-6 col-lg-4 infinite-item">
         <div class="post">
-          <div class="post__img">{{obj.thumnail_photo|safe}}</div>
+          <div class="post__img">{{post.thumnail_photo|safe}}</div>
           <div class="post__meta">
-            <span>{{obj.created_on}}</span>
-            <span>by {{obj.author_screen_name}}</span>
+            <span>{{post.created_on}}</span>
+            <span>by {{post.author_screen_name}}</span>
           </div>
-          <h3 class="post__title">{{obj.title}}</h3>
+          <h3 class="post__title">{{post.title}}</h3>
           <div class="post__wrap">
-            <a href="{{obj.link}}" class="post__link">Read more</a>
+            <a href="{{post.link}}" class="post__link">Read more</a>
 
             <div class="post__comments">
               <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
@@ -58,7 +58,7 @@
                   d="M66.46,232a146.23,146.23,0,0,0,6.39,152.67c2.31,3.49,3.61,6.19,3.21,8s-11.93,61.87-11.93,61.87a8,8,0,0,0,2.71,7.68A8.17,8.17,0,0,0,72,464a7.26,7.26,0,0,0,2.91-.6l56.21-22a15.7,15.7,0,0,1,12,.2c18.94,7.38,39.88,12,60.83,12A159.21,159.21,0,0,0,284,432.11"
                   style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px"
                 /></svg
-              >{{num}}
+              >{{post.post_comments.count}}
             </div>
           </div>
         </div>

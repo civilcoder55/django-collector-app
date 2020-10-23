@@ -25,8 +25,8 @@ class Post(models.Model):
         return self.title
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='post')
-    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='post_comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='user_comments')
     text = models.TextField()
     created_on = models.DateTimeField(default=timezone.now)
 

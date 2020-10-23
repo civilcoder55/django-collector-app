@@ -28,40 +28,32 @@ def paginate(objects , page , objects_per_page):
     return paginated_objects
 #----------------------------------------------------------------------------------------------------------------------------------------------#
 def home(request):
-    # grap posts from cache if exist and apply pagination 
-    posts = Post.objects.all().order_by('-id')
-    page = request.GET.get('page', 1) 
-    posts = paginate(objects=posts,page=page,objects_per_page=12)
-    
-    # dict to contain post as key with its comments number as value 
-    posts_metadata = cache.get(f'posts${page}') # grab it from cache 
-    if not posts_metadata : # or get it from database and cache it 
-        posts_metadata={}
-        for post in posts :
-            comments_number = Comment.objects.filter(post=post).count()
-            posts_metadata[post] = comments_number
-            cache.set(f'posts${page}', posts_metadata, timeout=60*15)
-    
-    
+    page = request.GET.get('page', 1)
+    posts = cache.get(f'posts_${page}') # grab posts from cache 
+
+    if not posts : # or get them from database and cache it 
+        # grap posts from database and apply pagination 
+        posts = Post.objects.prefetch_related('post_comments').all().order_by('-id') 
+        posts = paginate(objects=posts,page=page,objects_per_page=12)
+        cache.set(f'posts_${page}', posts, timeout=60*15)
+
     # shuffle random posts to show in top of home page 
     random_posts = Post.objects.all().order_by('?')[:5]
-    context = {'title':'Home' , 'posts_metadata' : posts_metadata ,'posts':posts,'random_posts':random_posts}
+    context = {'title':'Home','posts':posts,'random_posts':random_posts}
     return render(request,'main/index.html',context)
 #----------------------------------------------------------------------------------------------------------------------------------------------#
 @login_required
 def myposts(request):
-     # grap user posts and apply pagination
-    posts = Post.objects.filter(username=request.user.id).order_by('-id')
-    page = request.GET.get('page', 1) 
-    posts = paginate(objects=posts,page=page,objects_per_page=12)
+    page = request.GET.get('page', 1)
+    posts = cache.get(f'posts_${page}_${request.user.username}') # grab user posts from cache 
     
-    # dict to contain post as key with its comments number as value 
-    posts_metadata={}
-    for post in posts :
-        comments_number = Comment.objects.filter(post=post).count()
-        posts_metadata[post] = comments_number
+    if not posts : # or get them from database and cache it 
+        # grap user posts from database and apply pagination 
+        posts = Post.objects.prefetch_related('post_comments').all().order_by('-id') 
+        posts = paginate(objects=posts,page=page,objects_per_page=12)
+        cache.set(f'posts_${page}_${request.user.username}', posts, timeout=60*15)
 
-    return render(request,'posts/myposts.html',{'title':'My Posts' , 'posts_metadata' : posts_metadata ,'posts':posts})
+    return render(request,'posts/myposts.html',{'title':'My Posts','posts':posts})
 
 #----------------------------------------------------------------------------------------------------------------------------------------------#
 @login_required
