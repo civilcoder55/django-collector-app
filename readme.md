@@ -43,15 +43,17 @@ you can see demo here [thecollect0rapp.com](https://thecollect0rapp.com)
 
 List of features ready and TODOs for future development
 
+- pull twitter threads to a post on the web app
 - authentication system
 - social login
-- two factor authentication on noraml login and socail login
-- add comments and able to like/dislike posts
+- two factor authentication on normal login and socail login
+- able to add comments and like/dislike posts
 - able to download post as pdf
 - simple web socket to notify user when new post added
+- profile for users and ability to change informations .
 
 ## TO DO
 
 - [x] save all threads media on aws s3 (if thread deleted from twitter it will remain in thecollect0rapp.com )
-- [ ] refactor some code
-- [ ] adding some comments
+- [x] refactor some code
+- [ ] adding ui features to post page
