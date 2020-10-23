@@ -16,12 +16,10 @@
 ## Screenshots
 
 <img src="/screenshots/3FnDyDJ22N.gif?raw=true">
-
-![Example screenshot](/screenshot/2020-09-22_204753.png)
-![Example screenshot](/screenshot/2020-09-22_204821.png)
-![Example screenshot](/screenshot/2020-09-22_204856.png)
-![Example screenshot](/screenshot/2020-09-22_205014.png)
-![Example screenshot](/screenshot/2020-09-22_204839.png)
+<img src="/screenshots/2020-09-22_204753.png?raw=true">
+<img src="/screenshots/2020-09-22_204856.png?raw=true">
+<img src="/screenshots/2020-09-22_205014.png?raw=true">
+<img src="/screenshots/2020-09-22_204839.png?raw=true">
 
 ## Technologies
 
