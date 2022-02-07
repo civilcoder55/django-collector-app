@@ -16,8 +16,8 @@ import boto3
 import os
 from django.conf import settings
 
-auth = tweepy.OAuthHandler(settings.CONSUMER_KEY, settings.CONSUMER_SECRET)
-auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
+auth = tweepy.OAuthHandler(settings.TWITTER_CONSUMER_KEY, settings.TWITTER_CONSUMER_SECRET)
+auth.set_access_token(settings.TWITTER_ACCESS_TOKEN, settings.TWITTER_ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 s3 = boto3.client('s3', aws_access_key_id=settings.S3_ACCESS_KEY,
                   aws_secret_access_key=settings.S3_SECRET_KEY)

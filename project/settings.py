@@ -1,4 +1,5 @@
 
+from .config import *
 import os
 from dotenv import load_dotenv
 
@@ -7,17 +8,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("APP_SECRET_KEY")
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
-CONSUMER_KEY = os.getenv("CONSUMER_KEY")
-CONSUMER_SECRET = os.getenv("CONSUMER_SECRET")
-ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-ACCESS_TOKEN_SECRET = os.getenv("ACCESS_TOKEN_SECRET")
-from .config import *
-STATE = os.getenv("STATE")
-if STATE == 'dev':
+TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
+TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
+TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
+TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
+APP_ENV = os.getenv("APP_ENV")
+
+if APP_ENV == 'dev':
     DEBUG = True
     ALLOWED_HOSTS = ['127.0.0.1']
 else:
@@ -156,7 +157,7 @@ LOGIN_URL = '/login/'
 
 
 STATIC_URL = '/static/'
-if STATE == 'dev':
+if APP_ENV == 'dev':
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
     )
