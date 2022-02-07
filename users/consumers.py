@@ -1,5 +1,3 @@
-from channels.consumer import SyncConsumer
-
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 
@@ -17,8 +15,8 @@ class PostConsumer(AsyncJsonWebsocketConsumer):
 
     async def send_notification(self, event):
         message = {
-        'post_id' : event['post_id'],
-        'thumnail_photo' : event['thumnail_photo'],
-        'title' : event['title'],
-        'link':event['link'],}
+            'post_id': event['post_id'],
+            'thumnail_photo': event['thumnail_photo'],
+            'title': event['title'],
+            'link': event['link'], }
         await self.send_json(message)
