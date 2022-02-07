@@ -76,3 +76,4 @@ webencodings==0.5.1
 whitenoise==5.0.1
 wkhtmltopdf==0.2
 zope.interface==5.1.0
+django-redis==5.2.0

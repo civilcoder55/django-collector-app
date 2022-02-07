@@ -5,10 +5,9 @@ __pycache__/
 venv
 .vscode
 collector/
-db.sqlite3
 .env
-2db.sqlite3
 profile_pics/
 data.json
 daphne.sh
 TwitterBot.json
+database/
