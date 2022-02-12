@@ -7,6 +7,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 APP_ENV = os.getenv("APP_ENV")
 SECRET_KEY = os.getenv("APP_SECRET_KEY")
+APP_URL = os.getenv("APP_URL")
 
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
