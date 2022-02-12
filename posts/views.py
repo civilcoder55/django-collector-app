@@ -61,7 +61,7 @@ def myposts(request):
 
 @login_required
 def toggle_like(request, id):
-    post = Post.objects.filter(post_id=id).first()
+    post = Post.objects.filter(id=id).first()
     if post and request.is_ajax():
         if post.dislikes.filter(username=request.user.username).exists():
             # remove dislike if user already dislike
@@ -80,7 +80,7 @@ def toggle_like(request, id):
 
 @login_required
 def toggle_dislike(request, id):
-    post = Post.objects.filter(post_id=id).first()
+    post = Post.objects.filter(id=id).first()
     if post and request.is_ajax():
         if post.likes.filter(username=request.user.username).exists():
             # remove like if user already like
@@ -103,14 +103,14 @@ def post(request, id):
             comment_form = forms.comment(request.POST)
             if comment_form.is_valid():
                 comment = comment_form.save(commit=False)
-                comment.post = Post.objects.filter(post_id=id).first()
+                comment.post = Post.objects.filter(id=id).first()
                 comment.user = request.user
                 comment.save()
                 return redirect('/thread/'+str(id)+'#commentbox')
     else:
-        post = Post.objects.filter(post_id=id).first()
+        post = Post.objects.filter(id=id).first()
         if post:
-            comments = Comment.objects.filter(post=post).order_by('created_on')
+            comments = Comment.objects.filter(post=post).order_by('created_at')
             comment_form = forms.comment()
             taste = {
                 'post_likes': post.likes.count(),
@@ -125,7 +125,7 @@ def post(request, id):
 
 
 def pdf(request, id):
-    post = Post.objects.filter(post_id=id).first()
+    post = Post.objects.filter(id=id).first()
     if post:
         return render(request, 'posts/pdf.html', {'title': post.title, 'content': post.content, })
     return HttpResponseRedirect(reverse('home'))

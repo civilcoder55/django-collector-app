@@ -93,7 +93,7 @@ margin:0 auto;
                     points="256 128 256 272 352 272"
                     style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px;"
                   /></svg
-                ><span>{{post.created_on}}</span>
+                ><span>{{post.created_at}}</span>
               </li>
               <li>
                 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
@@ -112,7 +112,7 @@ margin:0 auto;
 
           {{post.content|safe}}
           <div class="article__actions">
-            <a href="/printpdf/{{post.post_id}}" class="article__pdf"
+            <a href="/printpdf/{{post.id}}" class="article__pdf"
               ><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
                 <path
                   d="M416,221.25V416a48,48,0,0,1-48,48H144a48,48,0,0,1-48-48V96a48,48,0,0,1,48-48h98.75a32,32,0,0,1,22.62,9.37L406.63,198.63A32,32,0,0,1,416,221.25Z"
@@ -292,7 +292,7 @@ margin:0 auto;
             <div class="comments__autor">
               <img class="comments__avatar" src="{{comment.user.profile_pic.pic.url}}" alt="" />
               <span class="comments__name">{{comment.user.username}}</span>
-              <span class="comments__time">{{comment.created_on}}</span>
+              <span class="comments__time">{{comment.created_at}}</span>
             </div>
 
             <p class="comments__text">{{comment.text}}</p>

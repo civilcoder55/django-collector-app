@@ -2,13 +2,10 @@ import tweepy
 import requests
 from bs4 import BeautifulSoup
 import time
-import sys
 import re
-from django.contrib.auth.models import User
 from social_django.models import UserSocialAuth
 from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
-from datetime import timedelta
+from asgiref.sync import sync_to_async
 from posts.models import Post
 import uuid
 from mimetypes import guess_extension
@@ -28,14 +25,14 @@ class MyStreamListener(tweepy.StreamListener):
         try:
             if 'collect' in status.text.lower().split(" "):
                 post_exsist = Post.objects.filter(
-                    post_id=status.in_reply_to_status_id).first()
+                    id=status.in_reply_to_status_id).first()
                 if post_exsist:
                     try:
                         collector_user = UserSocialAuth.objects.filter(uid=status.user.id_str).first()
                         if collector_user:
-                            Post.objects.filter(post_id=status.in_reply_to_status_id).first().username.add(collector_user.user.id)
+                            Post.objects.filter(id=status.in_reply_to_status_id).first().username.add(collector_user.user.id)
                         r = requests.get(
-                            f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/thread/{post_exsist.post_id}')
+                            f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/thread/{post_exsist.id}')
                         api.update_status(
                             f'@{status.user.screen_name} Your collected thread is ready {r.text}', status.id)
                     except Exception:
@@ -88,15 +85,15 @@ class MyStreamListener(tweepy.StreamListener):
                         final_content = ''.join(final_content)
                         final_content = "<p class='article__text'>" + final_content + '</p>'
                             
-                        Post(post_id=thread_id, post_content=final_content, post_link="/thread/"+str(thread_id), post_author_name=name,
-                             post_author_screen_name=screen_name, post_author_photo=photo, post_author_describtion=description, title=title, thumnail_photo=thum).save()
+                        Post(id=thread_id,content=final_content, url="/thread/"+str(thread_id), author_name=name,
+                             author_screen_name=screen_name, author_photo=photo, author_describtion=description, title=title, thumnail_photo=thum).save()
                         
                         collector_user = UserSocialAuth.objects.filter(uid=status.user.id_str).first()
                         if collector_user:
-                            Post.objects.filter(post_id=status.in_reply_to_status_id).first().username.add(collector_user.user.id)
+                            Post.objects.filter(id=status.in_reply_to_status_id).first().username.add(collector_user.user.id)
                         try:
                             channel_layer = get_channel_layer()
-                            async_to_sync(channel_layer.group_send)('posts', {'type': 'send.notification', "post_id": str(
+                            sync_to_async(channel_layer.group_send)('posts', {'type': 'send.notification', "post_id": str(
                                 thread_id), 'thumnail_photo': thum, 'title': title, 'post_link': "/thread/"+str(thread_id), })
                             r = requests.get(
                                 f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/thread/{thread_id}')
