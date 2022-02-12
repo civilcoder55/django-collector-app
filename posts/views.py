@@ -1,14 +1,17 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, HttpResponseForbidden
-from django.urls import reverse
-from django.shortcuts import render, redirect
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from . import forms
-from .models import Post, Comment
 import pdfkit
-import os
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import (HttpResponse, HttpResponseForbidden,
+                         HttpResponseRedirect, JsonResponse)
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views import View
+
+from . import forms
+from .models import Comment, Post
 
 
 def paginate(objects, page, objects_per_page):
@@ -29,7 +32,7 @@ def home(request):
     page = request.GET.get('page', 1)
     posts = cache.get(f'posts_${page}')  # grab posts from cache
 
-    if not posts:  # or get them from database and cache it
+    if not posts:
         # grap posts from database and apply pagination
         posts = Post.objects.prefetch_related(
             'post_comments').all().order_by('-id')
@@ -43,7 +46,7 @@ def home(request):
 
 
 @login_required
-def myposts(request):
+def my_posts(request):
     page = request.GET.get('page', 1)
     # grab user posts from cache
     posts = cache.get(f'posts_${page}_${request.user.username}')
@@ -97,17 +100,17 @@ def toggle_dislike(request, id):
     return HttpResponseForbidden()
 
 
-def post(request, id):
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            comment_form = forms.comment(request.POST)
-            if comment_form.is_valid():
-                comment = comment_form.save(commit=False)
-                comment.post = Post.objects.filter(id=id).first()
-                comment.user = request.user
-                comment.save()
-                return redirect('/thread/'+str(id)+'#commentbox')
-    else:
+class PostView(LoginRequiredMixin, View):
+    def post(self, request, id):
+        comment_form = forms.comment(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.post = Post.objects.filter(id=id).first()
+            comment.user = request.user
+            comment.save()
+            return redirect('/post/'+str(id)+'#commentbox')
+
+    def get(self, request, id):
         post = Post.objects.filter(id=id).first()
         if post:
             comments = Comment.objects.filter(post=post).order_by('created_at')
@@ -121,19 +124,18 @@ def post(request, id):
             return render(request, 'posts/post.html', {'title': post.title, 'post': post, 'comments': comments, 'comment_form': comment_form, 'taste': taste})
         return HttpResponseRedirect(reverse('home'))
 
-    return HttpResponseForbidden()
 
-
-def pdf(request, id):
+def view_pdf(request, id):
     post = Post.objects.filter(id=id).first()
     if post:
         return render(request, 'posts/pdf.html', {'title': post.title, 'content': post.content, })
     return HttpResponseRedirect(reverse('home'))
 
 
-def print_pdf(request, num):
-    pdf = pdfkit.from_url('http://thecollect0rapp.com/pdf/'+str(num), False)
+def download_pdf(request, id):
+    # get view_pdf path => /pdf/view/1221554458
+    path = reverse('view_pdf', args=(id,))
+    pdf = pdfkit.from_url(f'{settings.APP_URL}{path}', False)
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="' + \
-        str(num)+'.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="{str(id)}.pdf"'
     return response

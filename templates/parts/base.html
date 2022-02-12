@@ -96,7 +96,7 @@
               <nav class="header__nav">
                 {% if user.is_authenticated %}
                 <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'myposts' %}">My Posts</a>
+                <a href="{% url 'my_posts' %}">My Posts</a>
                 <a href="{% url 'profile' %}">My profile</a>
                 <a href="{% url 'about' %}">How to use</a>
                 {% else %}
@@ -208,7 +208,7 @@
                 // options
                 title: 'New Post Added',
                 message:'click here to see it ',
-                url:`/thread/${data.post_id}`,
+                url:`/post/${data.post_id}`,
                 target: '_blank',
               },{
                 // settings

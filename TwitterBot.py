@@ -32,9 +32,9 @@ class MyStreamListener(tweepy.StreamListener):
                         if collector_user:
                             Post.objects.filter(id=status.in_reply_to_status_id).first().username.add(collector_user.user.id)
                         r = requests.get(
-                            f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/thread/{post_exsist.id}')
+                            f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/post/{post_exsist.id}')
                         api.update_status(
-                            f'@{status.user.screen_name} Your collected thread is ready {r.text}', status.id)
+                            f'@{status.user.screen_name} Your 🧵 post is ready {r.text}', status.id)
                     except Exception:
                         pass
                 else:
@@ -85,7 +85,7 @@ class MyStreamListener(tweepy.StreamListener):
                         final_content = ''.join(final_content)
                         final_content = "<p class='article__text'>" + final_content + '</p>'
                             
-                        Post(id=thread_id,content=final_content, url="/thread/"+str(thread_id), author_name=name,
+                        Post(id=thread_id,content=final_content, url="/post/"+str(thread_id), author_name=name,
                              author_screen_name=screen_name, author_photo=photo, author_describtion=description, title=title, thumnail_photo=thum).save()
                         
                         collector_user = UserSocialAuth.objects.filter(uid=status.user.id_str).first()
@@ -94,11 +94,11 @@ class MyStreamListener(tweepy.StreamListener):
                         try:
                             channel_layer = get_channel_layer()
                             sync_to_async(channel_layer.group_send)('posts', {'type': 'send.notification', "post_id": str(
-                                thread_id), 'thumnail_photo': thum, 'title': title, 'post_link': "/thread/"+str(thread_id), })
+                                thread_id), 'thumnail_photo': thum, 'title': title, 'post_link': "/post/"+str(thread_id), })
                             r = requests.get(
-                                f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/thread/{thread_id}')
+                                f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/post/{thread_id}')
                             api.update_status(
-                                f'@{status.user.screen_name} Your collected thread is ready {r.text}', status.id)
+                                f'@{status.user.screen_name} Your 🧵 post is ready {r.text}', status.id)
                         except Exception as e:
                             print(e)
             else:

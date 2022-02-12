@@ -1,10 +1,10 @@
-from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 
 
 class Post(models.Model):
+    """Posts [twitter threads] model"""
     id = models.BigIntegerField(primary_key=True)
     username = models.ManyToManyField(User, default=1)
     title = models.CharField(max_length=250, default='title')
@@ -25,6 +25,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Comments model"""
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name='post_comments')
     user = models.ForeignKey(
