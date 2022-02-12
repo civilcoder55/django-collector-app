@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -14,8 +15,7 @@ class Post(models.Model):
     author_screen_name = models.CharField(max_length=64)
     author_name = models.CharField(max_length=64)
     author_describtion = models.CharField(max_length=250)
-    thumnail_photo = models.CharField(
-        max_length=150, default='<img class="img rounded img-raised" src="threader.com:8000/static/assets/img/bg27.jpg"> height="300" width="400"')
+    thumnail_photo = models.CharField(max_length=150)
     likes = models.ManyToManyField(User, blank=True, related_name='post_likes')
     dislikes = models.ManyToManyField(
         User, blank=True, related_name='post_dislikes')
