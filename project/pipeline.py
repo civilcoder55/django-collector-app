@@ -1,15 +1,7 @@
-from django.urls import reverse
 from django.shortcuts import redirect
+from django.urls import reverse
 from social_core.pipeline.partial import partial
-from django_otp import devices_for_user
-from django_otp.plugins.otp_totp.models import TOTPDevice
-
-
-def get_user_totp_device(user, confirmed=None):
-    devices = devices_for_user(user, confirmed=confirmed)
-    for device in devices:
-        if isinstance(device, TOTPDevice):
-            return device
+from utils.helpers import get_user_totp_device
 
 
 @partial
@@ -23,8 +15,4 @@ def factor_auth(strategy, backend, user, request, details, *args, **kwargs):
                 return redirect(reverse("fa"))
             elif auth is True:
                 strategy.session['auth'] = None
-                return
-        else:
-            return
-    else:
-        return
+    return
