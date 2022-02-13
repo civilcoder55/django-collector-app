@@ -45,7 +45,7 @@ def my_posts(request):
         cache.set(f'posts_${page}_${request.user.username}',
                   posts, timeout=60*15)
 
-    return render(request, 'posts/myposts.html',
+    return render(request, 'posts/my_posts.html',
                   {'title': 'My Posts', 'posts': posts})
 
 
