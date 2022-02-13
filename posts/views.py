@@ -45,7 +45,8 @@ def my_posts(request):
         cache.set(f'posts_${page}_${request.user.username}',
                   posts, timeout=60*15)
 
-    return render(request, 'posts/myposts.html', {'title': 'My Posts', 'posts': posts})
+    return render(request, 'posts/myposts.html',
+                  {'title': 'My Posts', 'posts': posts})
 
 
 @login_required
@@ -53,16 +54,17 @@ def toggle_like(request, id):
     post = Post.objects.filter(id=id).first()
     if post and request.is_ajax():
         if post.dislikes.filter(username=request.user.username).exists():
-            # remove dislike if user already dislike
             post.dislikes.remove(request.user.id)
-        post.likes.add(request.user.id) if not post.likes.filter(username=request.user.username).exists(
-        ) else post.likes.remove(request.user.id)  # add like if user never liked and remove it if he already liked before
+        post.likes.add(request.user.id) if not post.likes.filter(
+            username=request.user.username).exists() else post.likes.remove(
+            request.user.id)
         taste = taste = {
             'post_likes': post.likes.count(),
             'post_dislikes': post.dislikes.count(),
-            'user_does_like': post.likes.filter(username=request.user.username).exists(),
-            'user_does_dislike': post.dislikes.filter(username=request.user.username).exists()
-        }
+            'user_does_like': post.likes.filter(
+                username=request.user.username).exists(),
+            'user_does_dislike': post.dislikes.filter(
+                username=request.user.username).exists()}
         return JsonResponse(taste)
     return HttpResponseForbidden()
 
@@ -72,16 +74,17 @@ def toggle_dislike(request, id):
     post = Post.objects.filter(id=id).first()
     if post and request.is_ajax():
         if post.likes.filter(username=request.user.username).exists():
-            # remove like if user already like
             post.likes.remove(request.user.id)
-        post.dislikes.add(request.user.id) if not post.dislikes.filter(username=request.user.username).exists(
-        ) else post.dislikes.remove(request.user.id)  # add dislike if user never disliked and remove it if he already disliked before
+        post.dislikes.add(request.user.id) if not post.dislikes.filter(
+            username=request.user.username).exists() else post.dislikes.remove(
+            request.user.id)
         taste = taste = {
             'post_likes': post.likes.count(),
             'post_dislikes': post.dislikes.count(),
-            'user_does_like': post.likes.filter(username=request.user.username).exists(),
-            'user_does_dislike': post.dislikes.filter(username=request.user.username).exists()
-        }
+            'user_does_like': post.likes.filter(
+                username=request.user.username).exists(),
+            'user_does_dislike': post.dislikes.filter(
+                username=request.user.username).exists()}
         return JsonResponse(taste)
     return HttpResponseForbidden()
 
@@ -104,17 +107,23 @@ class PostView(LoginRequiredMixin, View):
             taste = {
                 'post_likes': post.likes.count(),
                 'post_dislikes': post.dislikes.count(),
-                'user_does_like': post.likes.filter(username=request.user.username).exists(),
-                'user_does_dislike': post.dislikes.filter(username=request.user.username).exists()
-            }
-            return render(request, 'posts/post.html', {'title': post.title, 'post': post, 'comments': comments, 'comment_form': comment_form, 'taste': taste})
+                'user_does_like': post.likes.filter(
+                    username=request.user.username).exists(),
+                'user_does_dislike': post.dislikes.filter(
+                    username=request.user.username).exists()}
+            return render(
+                request, 'posts/post.html',
+                {'title': post.title, 'post': post, 'comments': comments,
+                 'comment_form': comment_form, 'taste': taste})
         return HttpResponseRedirect(reverse('home'))
 
 
 def view_pdf(request, id):
     post = Post.objects.filter(id=id).first()
     if post:
-        return render(request, 'posts/pdf.html', {'title': post.title, 'content': post.content, })
+        return render(
+            request, 'posts/pdf.html',
+            {'title': post.title, 'content': post.content, })
     return HttpResponseRedirect(reverse('home'))
 
 

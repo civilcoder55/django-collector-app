@@ -1,28 +1,30 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponseForbidden, FileResponse
-from django.urls import reverse
-from django.shortcuts import render, redirect
-from . import forms
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.decorators import login_required
-from social_django.models import UserSocialAuth
-from django.contrib import messages
-from django.contrib.auth.tokens import default_token_generator as s
-from django.contrib.auth.models import User
+import base64
 import mimetypes
+import os
 from pathlib import Path
-from django.utils.http import http_date
-from django.utils._os import safe_join
+
+import qrcode
 from django.conf import settings
-from django.utils.translation import gettext as _
-from django.utils.encoding import force_text, force_bytes
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from django.contrib import messages
+from django.contrib.auth import (authenticate, login, logout,
+                                 update_session_auth_hash)
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator as s
+from django.http import (FileResponse, HttpResponseForbidden,
+                         HttpResponseRedirect)
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils._os import safe_join
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import (http_date, urlsafe_base64_decode,
+                               urlsafe_base64_encode)
 from django_otp import devices_for_user
 from django_otp.plugins.otp_totp.models import TOTPDevice
-import qrcode
-import os
-import base64
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from social_django.models import UserSocialAuth
+
+from . import forms
 
 
 def get_user_totp_device(user, confirmed=None):
@@ -42,14 +44,16 @@ def registe_r(request):
         if form.is_valid():
             form.save()
             user = authenticate(
-                username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'])
             if user and user.is_active:
                 login(request, user)
                 return HttpResponseRedirect(reverse('home'))
         error = list(form.errors.as_data()[
                      list(form.errors.as_data().keys())[0]][0])
         messages.error(request, error[0])
-    return render(request, 'users/login/register.html', {'signup': form, 'title': 'Register'})
+    return render(request, 'users/login/register.html',
+                  {'signup': form, 'title': 'Register'})
 
 
 def log_in(request):
@@ -60,23 +64,27 @@ def log_in(request):
         form = forms.Login(request.POST)
         if form.is_valid():
             user = authenticate(
-                username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'])
             if user and user.is_active:
                 device = get_user_totp_device(user)
-                if device != None and device.confirmed:
+                if device is not None and device.confirmed:
                     s = Serializer(settings.SECRET_KEY, 180)
                     token = s.dumps({'user_id': user.id}).decode('utf-8')
                     form = forms.TwoFactorAuth(initial={'token': token})
-                    return render(request, 'users/login/fa.html', {'form': form, 'title': '2fa'})
+                    return render(request, 'users/login/fa.html',
+                                  {'form': form, 'title': '2fa'})
                 login(request, user)
                 return HttpResponseRedirect(reverse('home'))
             messages.error(request, 'Username or Password is incorrect')
-            return render(request, 'users/login/login.html', {'signin': form, 'title': 'Login'})
-        error = list(form2.errors.as_data()[
-                     list(form2.errors.as_data().keys())[0]][0])
+            return render(request, 'users/login/login.html',
+                          {'signin': form, 'title': 'Login'})
+        error = list(form.errors.as_data()[
+                     list(form.errors.as_data().keys())[0]][0])
         messages.error(request, error[0])
         return redirect('login')
-    return render(request, 'users/login/login.html', {'signin': form, 'title': 'Login'})
+    return render(request, 'users/login/login.html',
+                  {'signin': form, 'title': 'Login'})
 
 
 def two_factor_auth(request):
@@ -100,7 +108,7 @@ def two_factor_auth(request):
                     return HttpResponseRedirect(reverse('blog'))
                 messages.error(request, '2FA code is wrong Please login again')
                 return redirect('login')
-            except Exception as e:
+            except Exception:
                 messages.error(request, 'Timeout Please login again')
                 return redirect('login')
         error = list(form.errors.as_data()[
@@ -120,9 +128,13 @@ def social_two_factor_auth(request):
             if code and user:
                 if device.verify_token(code):
                     request.session['auth'] = True
-                    return redirect(reverse('social:complete', kwargs={'backend': "twitter"}))
+                    return redirect(
+                        reverse(
+                            'social:complete',
+                            kwargs={'backend': "twitter"}))
             messages.error(request, '2FA code is wrong Please try again')
-            return render(request, 'users/login/social_fa.html', {'title': '2fa'})
+            return render(request, 'users/login/social_fa.html',
+                          {'title': '2fa'})
         return render(request, 'users/login/social_fa.html', {'title': '2fa'})
     return redirect(reverse('login'))
 
@@ -151,7 +163,8 @@ def profile(request):
         return redirect('profile')
     info = forms.UpdateForm(instance=request.user)
     pic = forms.ProfileUpdateForm(instance=request.user.profile_pic)
-    return render(request, 'users/profile/profile.html', {'title': 'My Profile', 'info': info, 'pic': pic})
+    return render(request, 'users/profile/profile.html',
+                  {'title': 'My Profile', 'info': info, 'pic': pic})
 
 
 @login_required
@@ -169,15 +182,19 @@ def password(request):
         messages.error(request, error[0])
         return redirect('password')
     password = forms.UpdatePass(request.user)
-    return render(request, 'users/profile/password.html', {'title': 'Change Password', 'password': password})
+    return render(request, 'users/profile/password.html',
+                  {'title': 'Change Password', 'password': password})
 
 
 @login_required
 def social(request):
     social_user = UserSocialAuth.objects.filter(
         user_id=request.user.id).first()
-    screen_name = social_user.extra_data['access_token']['screen_name'] if social_user else False
-    return render(request, 'users/profile/social.html', {'title': 'Linked Accounts', 'socialuser': screen_name})
+    screen_name = social_user.extra_data['access_token']['screen_name']\
+        if social_user else False
+    return render(
+        request, 'users/profile/social.html',
+        {'title': 'Linked Accounts', 'socialuser': screen_name})
 
 
 @login_required
@@ -185,28 +202,33 @@ def delete(request):
     if request.method == 'POST':
         request.user.delete()
         return HttpResponseRedirect(reverse('home'))
-    return render(request, 'users/profile/delete.html', {'title': 'Delete My Account', })
+    return render(
+        request, 'users/profile/delete.html',
+        {'title': 'Delete My Account', })
 
 
 @login_required
 def device(request, format=None):
     device = get_user_totp_device(request.user)
     if not device:
-        return render(request, 'users/profile/device.html', {'title': 'Security', 'state': 'None'})
-    elif device != None and not device.confirmed:
+        return render(request, 'users/profile/device.html',
+                      {'title': 'Security', 'state': 'None'})
+    elif device is not None and not device.confirmed:
         device.delete()
-        return render(request, 'users/profile/device.html', {'title': 'Security', 'state': 'None'})
+        return render(request, 'users/profile/device.html',
+                      {'title': 'Security', 'state': 'None'})
 
-    return render(request, 'users/profile/device.html', {'title': 'Security', 'state': 'True'})
+    return render(request, 'users/profile/device.html',
+                  {'title': 'Security', 'state': 'True'})
 
 
 @login_required
 def activate(request):
     device = get_user_totp_device(request.user)
-    if device != None and device.confirmed:
+    if device is not None and device.confirmed:
         return redirect('device')
     if not device:
-        device = user.totpdevice_set.create(confirmed=False)
+        device = request.user.totpdevice_set.create(confirmed=False)
     url = device.config_url
     img = qrcode.make(url)
     img.save('./media/qr.png')
@@ -218,35 +240,44 @@ def activate(request):
         form = forms.ActiveTwoFactorAuth(request.POST)
         if form.is_valid():
             token = form.cleaned_data['code']
-            if device != None and device.verify_token(token):
+            if device is not None and device.verify_token(token):
                 if not device.confirmed:
                     device.confirmed = True
                     device.save()
-                    return render(request, 'users/profile/device.html', {'title': 'Security', 'state': 'True'})
+                    return render(
+                        request, 'users/profile/device.html',
+                        {'title': 'Security', 'state': 'True'})
             messages.error(request, 'That is an invalid or expired code')
-            return render(request, 'users/profile/device.html', {'title': 'Security', 'url': url, 'state': 'False', 'form': form, 'img': str(img, "utf-8")})
-    return render(request, 'users/profile/device.html', {'title': 'Security', 'url': url, 'state': 'False', 'form': form, 'img': str(img, "utf-8")})
+            return render(request, 'users/profile/device.html',
+                          {'title': 'Security', 'url': url, 'state': 'False',
+                           'form': form, 'img': str(img, "utf-8")})
+    return render(request, 'users/profile/device.html',
+                  {'title': 'Security', 'url': url, 'state': 'False',
+                   'form': form, 'img': str(img, "utf-8")})
 
 
 @login_required
 def deactivate(request):
     device = get_user_totp_device(request.user)
-    if device == None or not device.confirmed:
+    if device is None or not device.confirmed:
         return redirect('device')
     form = forms.ActiveTwoFactorAuth()
     if request.method == 'POST':
         form = forms.ActiveTwoFactorAuth(request.POST)
         if form.is_valid():
             token = form.cleaned_data['code']
-            if device != None and device.verify_token(token):
+            if device is not None and device.verify_token(token):
                 device.delete()
                 messages.success(request, 'Your device is now deleted')
                 return redirect('device')
             messages.error(request, 'That is an invalid or expired code')
-            return render(request, 'users/profile/device.html', {'title': 'Security', 'state': 'Del', 'form': form})
+            return render(request, 'users/profile/device.html',
+                          {'title': 'Security', 'state': 'Del', 'form': form})
         messages.error(request, 'Something is Wrong')
-        return render(request, 'users/profile/device.html', {'title': 'Security', 'state': 'Del', 'form': form, })
-    return render(request, 'users/profile/device.html', {'title': 'Security', 'state': 'Del', 'form': form, })
+        return render(request, 'users/profile/device.html',
+                      {'title': 'Security', 'state': 'Del', 'form': form, })
+    return render(request, 'users/profile/device.html',
+                  {'title': 'Security', 'state': 'Del', 'form': form, })
 
 
 def reset_pass_request(request):
@@ -259,8 +290,8 @@ def reset_pass_request(request):
             email = form.cleaned_data['email']
             user = User.objects.filter(email=email).first()
             if user:
-                token = s.make_token(user)
-                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                s.make_token(user)
+                urlsafe_base64_encode(force_bytes(user.pk))
                 messages.success(
                     request, 'Password reset link has beed sent to your email')
                 return redirect('reset_request')
@@ -271,7 +302,8 @@ def reset_pass_request(request):
                      list(form.errors.as_data().keys())[0]][0])
         messages.error(request, error[0])
         return redirect('reset_request')
-    return render(request, 'users/login/reset_request.html', {'title': 'Reset Password Request', 'form': form})
+    return render(request, 'users/login/reset_request.html',
+                  {'title': 'Reset Password Request', 'form': form})
 
 
 def reset_password(request, uid, token):
@@ -293,11 +325,12 @@ def reset_password(request, uid, token):
                              list(form.errors.as_data().keys())[0]][0])
                 messages.error(request, error[0])
                 return redirect('reset_password', uid=uid, token=token)
-            return render(request, 'users/login/reset.html', {'title': 'Reset Password', 'form': form})
+            return render(request, 'users/login/reset.html',
+                          {'title': 'Reset Password', 'form': form})
         else:
             messages.error(request, 'That is an invalid or expired token')
             return redirect('reset_request')
-    except Exception as e:
+    except Exception:
         messages.error(request, 'That is an invalid or expired token')
         return redirect('reset_request')
 
@@ -307,15 +340,23 @@ def about(request):
 
 
 def handler404(request, *args, **kwargs):
-    return render(request, 'main/Error.html', {'title': 'Page not found', 'head': 'Not Found', 'status': '404'}, status=404,)
+    return render(
+        request, 'main/Error.html',
+        {'title': 'Page not found', 'head': 'Not Found', 'status': '404'},
+        status=404,)
 
 
 def handler500(request, *args, **kwargs):
-    return render(request, 'main/Error.html', {'title': 'Server Error', 'head': 'Server Error', 'status': '500'}, status=500)
+    return render(
+        request, 'main/Error.html',
+        {'title': 'Server Error', 'head': 'Server Error', 'status': '500'},
+        status=500)
 
 
 def inuse(request):
-    return render(request, 'main/inuse.html', {'title': 'Account is already in use ', 'status': '403'},)
+    return render(
+        request, 'main/inuse.html',
+        {'title': 'Account is already in use ', 'status': '403'},)
 
 
 def media(request, path):

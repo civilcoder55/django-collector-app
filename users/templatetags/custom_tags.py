@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter("remove_attr")
 def remove_attr(field, attr):
     if attr in field.field.widget.attrs:
@@ -13,7 +14,7 @@ def remove_attr(field, attr):
 def getimg(field):
     field = field.split(" ")
     for f in field:
-        if 'src' in f :
+        if 'src' in f:
             field = """<img {0} style="
     width: 300px;
     height: 300px;
@@ -22,7 +23,6 @@ def getimg(field):
     border-radius: 20px;
 ">""".format(f)
             return field
-
 
 
 @register.filter(name='add_attr')

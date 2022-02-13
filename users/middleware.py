@@ -1,7 +1,7 @@
+from django.contrib import messages
 from django.shortcuts import redirect
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_django.middleware import SocialAuthExceptionMiddleware
-from django.contrib import messages
 
 
 class TwitterAuthAlreadyAssociatedMiddleware(SocialAuthExceptionMiddleware):

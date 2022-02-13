@@ -17,11 +17,11 @@ def factor_auth(strategy, backend, user, request, details, *args, **kwargs):
     if user:
         device = get_user_totp_device(user)
         auth = strategy.session_get('auth', None)
-        if not device == None and device.confirmed:
+        if device is not None and device.confirmed:
             if not auth:
                 strategy.session['user_id'] = user.id
                 return redirect(reverse("fa"))
-            elif auth == True:
+            elif auth is True:
                 strategy.session['auth'] = None
                 return
         else:

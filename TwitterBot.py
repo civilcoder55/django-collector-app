@@ -35,12 +35,15 @@ class MyStreamListener(tweepy.StreamListener):
                         collector_user = UserSocialAuth.objects.filter(
                             uid=status.user.id_str).first()
                         if collector_user:
-                            Post.objects.filter(id=status.in_reply_to_status_id).first(
-                            ).username.add(collector_user.user.id)
+                            Post.objects\
+                                .filter(id=status.in_reply_to_status_id)\
+                                .first().username.add(collector_user.user.id)
+                        url = f'{settings.APP_URL}/post/{post_exsist.id}'
                         r = requests.get(
-                            f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/post/{post_exsist.id}')
+                            f'https://tinyurl.com/api-create.php?source=create&url={url}')
                         api.update_status(
-                            f'@{status.user.screen_name} Your 🧵 post is ready {r.text}', status.id)
+                            f'@{status.user.screen_name} Your 🧵 post is ready {r.text}',
+                            status.id)
                     except Exception:
                         pass
                 else:
@@ -56,9 +59,9 @@ class MyStreamListener(tweepy.StreamListener):
                     try:
                         thum_url = main.entities['media'][0]['media_url_https']
                         s3_thum_url = self.upload2s3(thread_id, thum_url)
-                        thum = f''' <img src="{s3_thum_url}" height="300" width="400" > '''
+                        thum = f'<img src="{s3_thum_url}" height="300" width="400">'
                     except Exception:
-                        thum = ''' <img src="/static/img/default-thum.jpg" height="300" width="400"> '''
+                        thum = '<img src="/static/img/default-thum.jpg" height="300" width="400">'
 
                     # getting all thread tweets #
                     thread_tweets = []
@@ -91,8 +94,11 @@ class MyStreamListener(tweepy.StreamListener):
                         final_content = ''.join(final_content)
                         final_content = "<p class='article__text'>" + final_content + '</p>'
 
-                        Post(id=thread_id, content=final_content, author_name=name,
-                             author_screen_name=screen_name, author_photo=photo, author_describtion=description, title=title, thumnail_photo=thum).save()
+                        Post(
+                            id=thread_id, content=final_content,
+                            author_name=name, author_screen_name=screen_name,
+                            author_photo=photo, author_describtion=description,
+                            title=title, thumnail_photo=thum).save()
 
                         collector_user = UserSocialAuth.objects.filter(
                             uid=status.user.id_str).first()
@@ -101,12 +107,17 @@ class MyStreamListener(tweepy.StreamListener):
                             ).username.add(collector_user.user.id)
                         try:
                             channel_layer = get_channel_layer()
-                            sync_to_async(channel_layer.group_send)('posts', {'type': 'send.notification', "post_id": str(
-                                thread_id), 'thumnail_photo': thum, 'title': title, })
+                            sync_to_async(
+                                channel_layer.group_send)(
+                                'posts',
+                                {'type': 'send.notification',
+                                 "post_id": str(thread_id),
+                                 'thumnail_photo': thum, 'title': title, })
                             r = requests.get(
                                 f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/post/{thread_id}')
                             api.update_status(
-                                f'@{status.user.screen_name} Your 🧵 post is ready {r.text}', status.id)
+                                f'@{status.user.screen_name} Your 🧵 post is ready {r.text}',
+                                status.id)
                         except Exception as e:
                             print(e)
             else:
@@ -122,7 +133,8 @@ class MyStreamListener(tweepy.StreamListener):
 
     def clean_string(self, string):
         twitter_urls = re.findall(
-            r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', string)
+            r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+            string)
         for url in twitter_urls:
             if "t.co" in url:
                 string = string.replace(url, "")
@@ -132,27 +144,38 @@ class MyStreamListener(tweepy.StreamListener):
         res = text
         try:
             for i in range(len(tweet_details.extended_entities['media'])):
-                if "ext_tw_video" in tweet_details.extended_entities['media'][i]['media_url_https']:
-                    for j in range(len(tweet_details.extended_entities['media'][i]['video_info']['variants'])):
-                        if ".mp4" in tweet_details.extended_entities['media'][i]['video_info']['variants'][j]['url']:
+                if "ext_tw_video" in tweet_details.extended_entities['media'][
+                        i]['media_url_https']:
+                    for j in range(
+                        len(
+                            tweet_details.
+                            extended_entities['media'][i]
+                            ['video_info']['variants'])):
+                        if ".mp4" in tweet_details.extended_entities['media'][
+                                i]['video_info']['variants'][j]['url']:
                             mp4_url = tweet_details.extended_entities[
                                 'media'][i]['video_info']['variants'][j]['url']
                             s3_mp4 = self.upload2s3(thread_id, mp4_url)
                             res += f''' <br><br><video width="400" controls> <source src="{s3_mp4}" type="video/mp4"> </video><br><br> '''
                             break
                 elif tweet_details.extended_entities['media'][i]['type'] == "animated_gif":
-                    for j in range(len(tweet_details.extended_entities['media'][i]['video_info']['variants'])):
-                        if ".mp4" in tweet_details.extended_entities['media'][i]['video_info']['variants'][j]['url']:
+                    for j in range(
+                        len(
+                            tweet_details.
+                            extended_entities['media'][i]
+                            ['video_info']['variants'])):
+                        if ".mp4" in tweet_details.extended_entities['media'][
+                                i]['video_info']['variants'][j]['url']:
                             mp4_url = tweet_details.extended_entities[
                                 'media'][i]['video_info']['variants'][j]['url']
                             s3_mp4 = self.upload2s3(thread_id, mp4_url)
                             res += f''' <br><video autoplay loop muted inline><source src="{s3_mp4}" type="video/mp4"></video><br> '''
                             break
                 else:
-                    img_url = tweet_details.extended_entities['media'][i]['media_url_https']
+                    img_url = tweet_details.extended_entities['media'][i][
+                        'media_url_https']
                     s3_img = self.upload2s3(thread_id, img_url)
-                    res += f''' <br><a href="{s3_img}" class="article__gallery">
-									<img src="{s3_img}" alt=""></a><br> '''
+                    res += f'<br><a href="{s3_img}" class="article__gallery"><img src="{s3_img}"></a><br>'
             return res
         except Exception as e:
             print(e)
@@ -167,20 +190,25 @@ class MyStreamListener(tweepy.StreamListener):
                 display_url = tweet_details.entities["urls"][i]["display_url"]
                 if "status" and "twitter.com" in url:
                     res.insert(
-                        indice, f''' <br><br></p><blockquote class="twitter-tweet"><a href="{url}"></a></blockquote><p class='article__text'><br><br> ''')
+                        indice,
+                        f''' <br><br></p><blockquote class="twitter-tweet"><a href="{url}"></a></blockquote><p class='article__text'><br><br> ''')
                 elif 'youtu.be' in url or 'youtube' in url:
                     if 'watch' in url:
                         res.insert(
-                            indice, f''' <br><br><iframe width="500" height="300" src="{url.replace('watch?v=','embed/')}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br> ''')
+                            indice,
+                            f''' <br><br><iframe width="500" height="300" src="{url.replace('watch?v=','embed/')}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br> ''')
                     elif 'channel' in url or 'user' in url:
                         res.insert(
-                            indice, f''' <br><br><a target="_blank" href="{url}">{display_url}</a><br><br> ''')
+                            indice,
+                            f''' <br><br><a target="_blank" href="{url}">{display_url}</a><br><br> ''')
                     else:
                         res.insert(
-                            indice, f''' <br><br><iframe width="500" height="300" src="https://www.youtube.com/embed/{url.split('/')[-1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br> ''')
+                            indice,
+                            f''' <br><br><iframe width="500" height="300" src="https://www.youtube.com/embed/{url.split('/')[-1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br> ''')
                 else:
                     res.insert(
-                        indice, f''' <br><br><a target="_blank" href="{url}">{display_url}</a><br><br> ''')
+                        indice,
+                        f''' <br><br><a target="_blank" href="{url}">{display_url}</a><br><br> ''')
             return ''.join(res)
         except Exception:
             return ''.join(res)
