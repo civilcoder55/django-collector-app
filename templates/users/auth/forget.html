@@ -1,0 +1,12 @@
+{% extends 'layout/auth_base.html' %}
+{% block content %}
+<form method="POST" class="form">
+	{% csrf_token %}
+	<h4 class="form__title">Password Reset</h4>
+
+	<input type="text" name="email" class="form__input" placeholder="Email" required>
+
+	<button class="form__btn form__btn--big" type="submit">Reset</button>
+
+</form>
+{% endblock %}
