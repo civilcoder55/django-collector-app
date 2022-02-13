@@ -1,6 +1,6 @@
 {% extends 'layout/auth_base.html' %}
 {% block content %}
-<form method="POST" class="form" action="{{ url 'social_second_auth' }}">
+<form method="POST" class="form" action="{% url 'social_second_auth' %}">
   {% csrf_token %}
   <h4 class="form__title">Second Auth</h4>
 
