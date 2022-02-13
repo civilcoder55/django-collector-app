@@ -103,7 +103,6 @@ class PostView(LoginRequiredMixin, View):
         post = Post.objects.filter(id=id).first()
         if post:
             comments = Comment.objects.filter(post=post).order_by('created_at')
-            comment_form = forms.comment()
             taste = {
                 'post_likes': post.likes.count(),
                 'post_dislikes': post.dislikes.count(),
@@ -114,7 +113,7 @@ class PostView(LoginRequiredMixin, View):
             return render(
                 request, 'posts/post.html',
                 {'title': post.title, 'post': post, 'comments': comments,
-                 'comment_form': comment_form, 'taste': taste})
+                 'taste': taste})
         return HttpResponseRedirect(reverse('home'))
 
 
