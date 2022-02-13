@@ -1,7 +1,7 @@
 *.pyc
 .vscode
 collector/
-profile_pics/
+avatars/
 data.json
 daphne.sh
 TwitterBot.json
