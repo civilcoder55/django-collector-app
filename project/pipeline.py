@@ -12,7 +12,7 @@ def factor_auth(strategy, backend, user, request, details, *args, **kwargs):
         if device is not None and device.confirmed:
             if not auth:
                 strategy.session['user_id'] = user.id
-                return redirect(reverse("fa"))
+                return redirect('social_second_auth')
             elif auth is True:
                 strategy.session['auth'] = None
     return
