@@ -17,6 +17,5 @@ class PostConsumer(AsyncJsonWebsocketConsumer):
         message = {
             'post_id': event['post_id'],
             'thumnail_photo': event['thumnail_photo'],
-            'title': event['title'],
-            'link': event['link'], }
+            'title': event['title']}
         await self.send_json(message)

@@ -1,20 +1,24 @@
-import tweepy
-import requests
-from bs4 import BeautifulSoup
-import time
+import os
 import re
-from social_django.models import UserSocialAuth
-from channels.layers import get_channel_layer
-from asgiref.sync import sync_to_async
-from posts.models import Post
+import time
 import uuid
 from mimetypes import guess_extension
-import boto3
-import os
-from django.conf import settings
 
-auth = tweepy.OAuthHandler(settings.TWITTER_CONSUMER_KEY, settings.TWITTER_CONSUMER_SECRET)
-auth.set_access_token(settings.TWITTER_ACCESS_TOKEN, settings.TWITTER_ACCESS_TOKEN_SECRET)
+import boto3
+import requests
+import tweepy
+from asgiref.sync import sync_to_async
+from bs4 import BeautifulSoup
+from channels.layers import get_channel_layer
+from django.conf import settings
+from social_django.models import UserSocialAuth
+
+from posts.models import Post
+
+auth = tweepy.OAuthHandler(
+    settings.TWITTER_CONSUMER_KEY, settings.TWITTER_CONSUMER_SECRET)
+auth.set_access_token(settings.TWITTER_ACCESS_TOKEN,
+                      settings.TWITTER_ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 s3 = boto3.client('s3', aws_access_key_id=settings.S3_ACCESS_KEY,
                   aws_secret_access_key=settings.S3_SECRET_KEY)
@@ -28,9 +32,11 @@ class MyStreamListener(tweepy.StreamListener):
                     id=status.in_reply_to_status_id).first()
                 if post_exsist:
                     try:
-                        collector_user = UserSocialAuth.objects.filter(uid=status.user.id_str).first()
+                        collector_user = UserSocialAuth.objects.filter(
+                            uid=status.user.id_str).first()
                         if collector_user:
-                            Post.objects.filter(id=status.in_reply_to_status_id).first().username.add(collector_user.user.id)
+                            Post.objects.filter(id=status.in_reply_to_status_id).first(
+                            ).username.add(collector_user.user.id)
                         r = requests.get(
                             f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/post/{post_exsist.id}')
                         api.update_status(
@@ -84,17 +90,19 @@ class MyStreamListener(tweepy.StreamListener):
                             final_content.append(content+'<br><br>')
                         final_content = ''.join(final_content)
                         final_content = "<p class='article__text'>" + final_content + '</p>'
-                            
-                        Post(id=thread_id,content=final_content, url="/post/"+str(thread_id), author_name=name,
+
+                        Post(id=thread_id, content=final_content, author_name=name,
                              author_screen_name=screen_name, author_photo=photo, author_describtion=description, title=title, thumnail_photo=thum).save()
-                        
-                        collector_user = UserSocialAuth.objects.filter(uid=status.user.id_str).first()
+
+                        collector_user = UserSocialAuth.objects.filter(
+                            uid=status.user.id_str).first()
                         if collector_user:
-                            Post.objects.filter(id=status.in_reply_to_status_id).first().username.add(collector_user.user.id)
+                            Post.objects.filter(id=status.in_reply_to_status_id).first(
+                            ).username.add(collector_user.user.id)
                         try:
                             channel_layer = get_channel_layer()
                             sync_to_async(channel_layer.group_send)('posts', {'type': 'send.notification', "post_id": str(
-                                thread_id), 'thumnail_photo': thum, 'title': title, 'post_link': "/post/"+str(thread_id), })
+                                thread_id), 'thumnail_photo': thum, 'title': title, })
                             r = requests.get(
                                 f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/post/{thread_id}')
                             api.update_status(
@@ -212,4 +220,3 @@ def start_stream(stream, **kwargs):
 myStreamListener = MyStreamListener()
 myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
 start_stream(myStream, track=['@thecollect0rapp'], stall_warnings=True)
-

@@ -9,7 +9,6 @@ class Post(models.Model):
     username = models.ManyToManyField(User, default=1)
     title = models.CharField(max_length=250, default='title')
     content = models.TextField()
-    url = models.CharField(max_length=250, unique=True)
     created_at = models.DateField(auto_now_add=True)
     author_photo = models.CharField(max_length=150)
     author_screen_name = models.CharField(max_length=64)
