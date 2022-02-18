@@ -7,13 +7,13 @@ from django.conf import settings
 from posts.models import Post
 from social_django.models import UserSocialAuth
 
-from CollectorBot.cleaner import Cleaner
-from CollectorBot.grabber import Grabber
+from .cleaner import Cleaner
+from .grabber import Grabber
 
 
 class StreamListener(tweepy.Stream):
 
-    def __init_(self):
+    def __init__(self):
         super().__init__(**settings.TWITTER_SECRETS)
         auth = tweepy.OAuthHandler(**settings.TWITTER_SECRETS)
         self.tweepy_client = tweepy.API(auth)
