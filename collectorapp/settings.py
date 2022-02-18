@@ -54,7 +54,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
     'social_core.pipeline.social_auth.social_user',
-    'project.pipeline.factor_auth',
+    'users.pipeline.factor_auth',
     'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
@@ -64,7 +64,7 @@ SOCIAL_AUTH_PIPELINE = (
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['user_id', 'auth', ]
 
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'collectorapp.urls'
 
 TEMPLATES = [
     {
@@ -89,8 +89,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-WSGI_APPLICATION = 'project.wsgi.application'
-ASGI_APPLICATION = 'project.asgi.application'
+WSGI_APPLICATION = 'collectorapp.wsgi.application'
+ASGI_APPLICATION = 'collectorapp.asgi.application'
 
 
 DATABASES = {
