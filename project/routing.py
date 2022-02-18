@@ -1,13 +1,6 @@
-from channels.routing import ProtocolTypeRouter, URLRouter
-from django.conf.urls import url
-from users.consumers import PostConsumer
-from channels.auth import AuthMiddlewareStack
+from core import consumers
+from django.urls import re_path
 
-
-application = ProtocolTypeRouter({
-    "websocket": AuthMiddlewareStack(
-        URLRouter([
-            url(r"^ws/blog/$", PostConsumer),
-        ])
-    ),
-})
+websocket_urlpatterns = [
+    re_path(r'ws/notifier/', consumers.PostConsumer.as_asgi()),
+]
