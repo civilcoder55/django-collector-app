@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'social_django',
     'users',
     'posts',
+    'core',
     'django_otp',
     'django_otp.plugins.otp_totp',
     'django_cleanup.apps.CleanupConfig',
