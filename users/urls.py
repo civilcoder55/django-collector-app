@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 
 from .views import *
 
@@ -15,9 +15,6 @@ urlpatterns = [
     path('setting/2fa', tfa, name='2fa'),
     path('setting/2fa/activate', AuthActivationView.as_view(), name='2fa_activate'),
     path('setting/2fa/deactivate', AuthDeActivationView.as_view(), name='2fa_deactivate'),
-    path('about', about, name='about'),
-    path('in_use', inuse, name='inuse'),
     path('forget-password', ForgetPasswordView.as_view(), name='forget_password'),
     path('reset/<uid>/<token>', ResetPasswordView.as_view(), name='reset_password'),
-    re_path(r'^media/(?P<path>.*)$', media)
 ]

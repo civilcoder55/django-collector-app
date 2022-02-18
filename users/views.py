@@ -1,8 +1,5 @@
 import base64
-import mimetypes
 from io import BytesIO
-from pathlib import Path
-from html5lib import serialize
 
 import qrcode
 from django.conf import settings
@@ -13,14 +10,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from django.http import (FileResponse, HttpResponseForbidden,
-                         HttpResponseRedirect)
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils._os import safe_join
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import (http_date, urlsafe_base64_decode,
-                               urlsafe_base64_encode)
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views import View
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from social_django.models import UserSocialAuth
@@ -305,7 +299,7 @@ class ForgetPasswordView(View):
 class ResetPasswordView(View):
     def post(self, request, uid, token):
         try:
-            user_id = force_text(urlsafe_base64_decode(uid))
+            user_id = force_str(urlsafe_base64_decode(uid))
             user = User.objects.filter(id=user_id).first()
             if default_token_generator.check_token(user, token):
                 reset_form = forms.ResetPass(user, request.POST)
@@ -328,7 +322,7 @@ class ResetPasswordView(View):
 
     def get(self, request, uid, token):
         try:
-            user_id = force_text(urlsafe_base64_decode(uid))
+            user_id = force_str(urlsafe_base64_decode(uid))
             user = User.objects.filter(id=user_id).first()
             if default_token_generator.check_token(user, token):
                 return render(request, 'users/auth/reset.html',
@@ -338,39 +332,3 @@ class ResetPasswordView(View):
         except Exception:
             messages.error(request, 'invalid or expired token')
             return redirect('forget_password')
-
-
-def about(request):
-    return render(request, 'main/about.html', {'title': 'The Collector APP'})
-
-
-def handler404(request, *args, **kwargs):
-    return render(
-        request, 'main/Error.html',
-        {'title': 'Page not found', 'head': 'Not Found', 'status': '404'},
-        status=404,)
-
-
-def handler500(request, *args, **kwargs):
-    return render(
-        request, 'main/Error.html',
-        {'title': 'Server Error', 'head': 'Server Error', 'status': '500'},
-        status=500)
-
-
-def inuse(request):
-    return render(
-        request, 'main/inuse.html',
-        {'title': 'Account is already in use ', 'status': '403'},)
-
-
-def media(request, path):
-    fullpath = Path(safe_join(settings.MEDIA_ROOT, path))
-    statobj = fullpath.stat()
-    content_type, encoding = mimetypes.guess_type(str(fullpath))
-    content_type = content_type or 'application/octet-stream'
-    response = FileResponse(fullpath.open('rb'), content_type=content_type)
-    response["Last-Modified"] = http_date(statobj.st_mtime)
-    if encoding:
-        response["Content-Encoding"] = encoding
-    return response
