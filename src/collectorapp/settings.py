@@ -1,7 +1,7 @@
 # import all config variables
-from .config import *
 import os
 
+from .config import *
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -132,6 +132,7 @@ USE_TZ = True
 LOGIN_URL = '/login/'
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -165,15 +166,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 if APP_ENV == 'dev':
-    STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static'),
-    )
-
-    # DJANGO DEBUG BAR
-    INTERNAL_IPS = [
-        # ...
-        "127.0.0.1",
-        # ...
-    ]
 
     DEBUG = 1
+
+    # DJANGO DEBUG BAR
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda r: True,
+    }
+    
