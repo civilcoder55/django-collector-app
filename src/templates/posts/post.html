@@ -291,10 +291,9 @@
             </div>
           </div>
         </form>
-        <script src="{% static 'js/swal.js' %}"></script>
         <script>
           function alert() {
-            swal("please login!", "You should be a user to comment!", "error");
+            Swal.fire("please login!", "You should be a user to comment!", "error");
           }
         </script>
         {% endif %}
@@ -349,10 +348,10 @@
 <script>
   $(document).ready(function (e) {
     $("#like").click(function (e) {
-      swal("please login!", "You should be a user to like!", "error");
+      Swal.fire("please login!", "You should be a user to like!", "error");
     });
     $("#dislike").click(function (e) {
-      swal("please login!", "You should be a user to dislike!", "error");
+      Swal.fire("please login!", "You should be a user to dislike!", "error");
     });
   });
 </script>
