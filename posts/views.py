@@ -1,8 +1,8 @@
 import pdfkit
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
+from django.db.models import Count
 from django.http import (HttpResponse, HttpResponseForbidden,
                          HttpResponseRedirect, JsonResponse)
 from django.shortcuts import redirect, render
@@ -16,17 +16,19 @@ from .models import Comment, Post
 
 def home(request):
     page = request.GET.get('page', 1)
-    posts = cache.get(f'posts_${page}')  # grab posts from cache
 
-    if not posts:
-        # grap posts from database and apply pagination
-        posts = Post.objects.prefetch_related(
-            'post_comments').all().order_by('-id')
-        posts = paginate(objects=posts, page=page, objects_per_page=12)
-        cache.set(f'posts_${page}', posts, timeout=60*15)
+    posts = Post.objects.annotate(Count('post_comments')).all().values(
+        'id', 'thumnail_photo', 'created_at', 'author_screen_name',
+        'title', 'post_comments__count').order_by('-created_at')
+    posts = paginate(objects=posts, page=page, objects_per_page=12)
 
-    # shuffle random posts to show in top of home page
-    random_posts = Post.objects.all().order_by('?')[:5]
+    random_posts = cache.get(f'random_posts')
+    if not random_posts:
+        random_posts = Post.objects.all().values(
+            'id', 'thumnail_photo', 'created_at', 'author_screen_name',
+            'title').order_by('?')[:5]
+        cache.set(f'random_posts', random_posts, timeout=60*15)
+
     context = {'title': 'Home', 'posts': posts, 'random_posts': random_posts}
     return render(request, 'main/index.html', context)
 
@@ -89,7 +91,9 @@ def toggle_dislike(request, id):
     return HttpResponseForbidden()
 
 
-class PostView(LoginRequiredMixin, View):
+class PostView(View):
+
+    @login_required
     def post(self, request, id):
         comment_form = forms.comment(request.POST)
         if comment_form.is_valid():
