@@ -90,5 +90,53 @@ $(document).ready(function () {
   }
 
   $(".footer__copyright").html("© " + new Date().getFullYear());
-  
+
+  /*==============================
+	Dark mode 
+	==============================*/
+
+  const darkModeCss = "/static/css/main.css";
+  const lightModeCss = "/static/css/main-light.css";
+
+  function getCookie(cookieName) {
+    cookieName = cookieName + "=";
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i];
+      while (cookie.charAt(0) == " ") {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(cookieName) == 0) {
+        return cookie.substring(cookieName.length);
+      }
+    }
+    return "";
+  }
+
+  function swapMode() {
+    const mode = getCookie("mode");
+    if (mode == "normal") {
+      document.cookie = "mode=;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
+      document.cookie = "mode=dark;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
+      document.getElementById("mode").setAttribute("href", darkModeCss);
+    } else if (mode == "dark") {
+      document.cookie = "mode=;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
+      document.cookie = "mode=normal;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
+      document.getElementById("mode").setAttribute("href", lightModeCss);
+    } else {
+      document.cookie = "mode=normal;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
+      document.getElementById("mode").setAttribute("href", lightModeCss);
+    }
+  }
+
+  const mode = getCookie("mode");
+
+  if (mode != "normal" && mode != "dark") {
+    document.cookie = "mode=dark;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
+  } else if (mode == "normal") {
+    document.getElementById("mode").setAttribute("href", lightModeCss);
+  }
+
+  const swapButton = document.getElementById("swap");
+  if (swapButton) swapButton.onclick = swapMode;
 });

@@ -123,49 +123,9 @@
   </script>
   {% endfor %}
   {% endif %}
-
   {% block script %} {% endblock %}
-  <script>
-    $(document).ready(function () {
-      dark = "{% static 'css/main.css' %}";
-      light = "{% static 'css/main-light.css' %}";
-      function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(";");
-        for (var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == " ") {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-      }
-      if (getCookie("mode") != "normal" && getCookie("mode") != "dark") {
-        document.cookie = "mode=dark;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
-      } else if (getCookie("mode") == "normal") {
-        document.getElementById("mode").setAttribute("href", light);
-      }
-      function swap() {
-        if (getCookie("mode") == "normal") {
-          document.cookie = "mode=;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
-          document.cookie = "mode=dark;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
-          document.getElementById("mode").setAttribute("href", dark);
-        } else if (getCookie("mode") == "dark") {
-          document.cookie = "mode=;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
-          document.cookie = "mode=normal;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
-          document.getElementById("mode").setAttribute("href", light);
-        } else {
-          document.cookie = "mode=normal;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
-          document.getElementById("mode").setAttribute("href", light);
-        }
-      }
-      button = document.getElementById("swap");
-      button.onclick = swap;
-    });
-  </script>
+
+  
   {% if user.is_authenticated %}
   <style>
     .alert-success {
