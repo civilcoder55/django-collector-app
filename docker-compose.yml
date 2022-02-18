@@ -1,0 +1,46 @@
+version: "3.8"
+services:
+    redis:
+        image: 'redis'
+        container_name: collector-app-redis
+        networks:
+            - collector-app-network
+
+    mysql:
+        image: mysql:latest
+        container_name: collector-app-mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_DATABASE: "collector_db"
+        volumes:
+            - ./database/mysql/:/var/lib/mysql
+        networks:
+            - collector-app-network
+
+    django:
+        build: ./src
+        container_name: collector-app-django
+        volumes:
+            - ./src/:/usr/src/app/
+        networks:
+            - collector-app-network
+        env_file:
+            - ./.env
+        depends_on:
+            - mysql
+            - redis
+
+    nginx:
+        build: ./nginx
+        container_name: collector-app-nginx
+        volumes:
+            - ./src/static/:/usr/src/app/static/
+        networks:
+            - collector-app-network
+        ports:
+            - 8000:80
+        depends_on:
+            - django
+
+networks:
+    collector-app-network:
