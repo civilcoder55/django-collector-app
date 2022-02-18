@@ -14,6 +14,8 @@ services:
             MYSQL_DATABASE: "collector_db"
         volumes:
             - ./database/mysql/:/var/lib/mysql
+        ports:
+            - 3310:3306
         networks:
             - collector-app-network
 
