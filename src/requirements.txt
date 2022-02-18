@@ -20,3 +20,4 @@ rich==11.2.0
 social-auth-app-django==5.0.0
 social-auth-core==4.2.0
 tweepy==4.5.0
+gunicorn==20.1.0
