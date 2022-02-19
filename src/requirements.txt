@@ -23,3 +23,4 @@ gunicorn==20.1.0
 mysqlclient==2.1.0
 itsdangerous==1.1.0
 argon2-cffi==21.3.0
+Celery==5.2.3
