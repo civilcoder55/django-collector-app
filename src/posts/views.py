@@ -36,16 +36,14 @@ def home(request):
 @login_required
 def my_posts(request):
     page = request.GET.get('page', 1)
-    # grab user posts from cache
-    posts = cache.get(f'posts_${page}_${request.user.username}')
 
-    if not posts:  # or get them from database and cache it
-        # grap user posts from database and apply pagination
-        posts = Post.objects.prefetch_related(
-            'post_comments').all().order_by('-id')
-        posts = paginate(objects=posts, page=page, objects_per_page=12)
-        cache.set(f'posts_${page}_${request.user.username}',
-                  posts, timeout=60*15)
+    posts = Post.objects.annotate(
+        Count('post_comments')).filter(
+        username=request.user.id).values(
+        'id', 'thumnail_photo', 'created_at', 'author_screen_name', 'title',
+        'post_comments__count').order_by('-created_at')
+
+    posts = paginate(objects=posts, page=page, objects_per_page=12)
 
     return render(request, 'posts/my_posts.html',
                   {'title': 'My Posts', 'posts': posts})
@@ -54,19 +52,28 @@ def my_posts(request):
 @login_required
 def toggle_like(request, id):
     post = Post.objects.filter(id=id).first()
-    if post and request.is_ajax():
-        if post.dislikes.filter(username=request.user.username).exists():
+    if post and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        user_like = post.likes.filter(username=request.user.username).exists()
+        user_dislike = post.dislikes.filter(
+            username=request.user.username).exists()
+        if user_like:
+            post.likes.remove(request.user.id)
+            user_like = False
+        elif user_dislike:
             post.dislikes.remove(request.user.id)
-        post.likes.add(request.user.id) if not post.likes.filter(
-            username=request.user.username).exists() else post.likes.remove(
-            request.user.id)
-        taste = taste = {
+            user_dislike = False
+            post.likes.add(request.user.id)
+            user_like = True
+        else:
+            post.likes.add(request.user.id)
+            user_like = True
+
+        taste = {
             'post_likes': post.likes.count(),
             'post_dislikes': post.dislikes.count(),
-            'user_does_like': post.likes.filter(
-                username=request.user.username).exists(),
-            'user_does_dislike': post.dislikes.filter(
-                username=request.user.username).exists()}
+            'user_like': user_like,
+            'user_dislike': user_dislike
+        }
         return JsonResponse(taste)
     return HttpResponseForbidden()
 
@@ -74,19 +81,28 @@ def toggle_like(request, id):
 @login_required
 def toggle_dislike(request, id):
     post = Post.objects.filter(id=id).first()
-    if post and request.is_ajax():
-        if post.likes.filter(username=request.user.username).exists():
+    if post and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' :
+        user_like = post.likes.filter(username=request.user.username).exists()
+        user_dislike = post.dislikes.filter(
+            username=request.user.username).exists()
+        if user_like:
             post.likes.remove(request.user.id)
-        post.dislikes.add(request.user.id) if not post.dislikes.filter(
-            username=request.user.username).exists() else post.dislikes.remove(
-            request.user.id)
-        taste = taste = {
+            user_like = False
+            post.dislikes.add(request.user.id)
+            user_dislike = True
+        elif user_dislike:
+            post.dislikes.remove(request.user.id)
+            user_dislike = False
+        else:
+            post.dislikes.add(request.user.id)
+            user_dislike = True
+
+        taste = {
             'post_likes': post.likes.count(),
             'post_dislikes': post.dislikes.count(),
-            'user_does_like': post.likes.filter(
-                username=request.user.username).exists(),
-            'user_does_dislike': post.dislikes.filter(
-                username=request.user.username).exists()}
+            'user_like': user_like,
+            'user_dislike': user_dislike
+        }
         return JsonResponse(taste)
     return HttpResponseForbidden()
 
@@ -110,9 +126,9 @@ class PostView(View):
             taste = {
                 'post_likes': post.likes.count(),
                 'post_dislikes': post.dislikes.count(),
-                'user_does_like': post.likes.filter(
+                'user_like': post.likes.filter(
                     username=request.user.username).exists(),
-                'user_does_dislike': post.dislikes.filter(
+                'user_dislike': post.dislikes.filter(
                     username=request.user.username).exists()}
             return render(
                 request, 'posts/post.html',
