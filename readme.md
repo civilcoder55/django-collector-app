@@ -1,59 +1,42 @@
-# TheCollectorApp
+# collector-app
 
-> Open source Django web app and twitter bot to pull twitter threads into blog post to read/save easily .
-
-## Table of contents
-
-- [General info](#general-info)
-- [Screenshots](#screenshots)
-- [Technologies](#technologies)
-- [Setup](#setup)
-- [Features](#features)
-- [TO DO](#TO-DO)
-
-## General info
+> blog and twitter bot to pull tweets chains into blog post to read/save easily .
 
 ## Screenshots
 
-<img src="/screenshots/3FnDyDJ22N.gif?raw=true">
-<img src="/screenshots/2020-09-22_204753.png?raw=true">
-<img src="/screenshots/2020-09-22_204856.png?raw=true">
-<img src="/screenshots/2020-09-22_205014.png?raw=true">
-<img src="/screenshots/2020-09-22_204839.png?raw=true">
+<img src="screenshots/3FnDyDJ22N.gif">
+<img src="screenshots/2020-09-22_204753.png">
+<img src="screenshots/2020-09-22_204856.png">
+<img src="screenshots/2020-09-22_205014.png">
+<img src="screenshots/2020-09-22_204839.png">
 
-## Technologies
+## Usage
 
-- Django - version 3.0.1
-- tweepy - version 3.8.0
-- social_django
-- channels
+1. Clone the repo
+   ```sh
+   git clone https://github.com/civilcoder55/django-collector-app.git
+   ```
 
-## Setup
+2. update env file
+   ```sh
+   cp .env.example .env
+   ```
 
-- make sure you have redis setup on 127.0.0.1:6379
-- edit .env file with right keys
-- setup python libraries `pip install -r requirements.txt`
-- run the bot with `python manage.py runscript TwitterBot.py`
-- run the server with `python manage.py runserver`
-- go to 127.0.0.1:8000 and start using the project
+3. run containers
+   ```sh
+   docker-compose up -d
+   ```
 
-you can see demo here [thecollect0rapp.com](https://thecollect0rapp.com)
+4. access website at
+   ```sh
+   http://127.0.0.1:8000
+   ```
 
 ## Features
-
-List of features ready and TODOs for future development
-
-- pull twitter threads to a post on the web app
-- authentication system
-- social login
-- two factor authentication on normal login and socail login
-- able to add comments and like/dislike posts
-- able to download post as pdf
-- simple web socket to notify user when new post added
-- profile for users and ability to change informations .
-
-## TO DO
-
-- [x] save all threads media on aws s3 (if thread deleted from twitter it will remain in thecollect0rapp.com )
-- [x] refactor some code
-- [ ] adding ui features to post page
+- pulling tweets chains into blog post.
+- authentication system.
+- twitter oauth for login and linking account. 
+- two factor authentication with otp.
+- comment, like, dislike posts.
+- save post as pdf.
+- websocket notification on new collected tweets.
