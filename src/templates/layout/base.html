@@ -125,7 +125,7 @@
   {% endif %}
   {% block script %} {% endblock %}
 
-  
+
   {% if user.is_authenticated %}
   <style>
     .alert-success {
@@ -148,11 +148,14 @@
     };
 
     socket.onmessage = function recieve(message) {
-      const post = JSON.parse(message.data);
+      
+      const data = JSON.parse(message.data);
+      const post = data.event
+      console.log(post)
       $.notifyClose();
       $.notify({
         // options
-        title: 'New post collected',
+        title: 'new post collected',
         message: 'click here to see it ',
         url: `/post/${post.id}`,
         target: '_blank',

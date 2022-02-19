@@ -113,7 +113,7 @@
               </svg>Download PDF</a>
 
             <div class="article__rate">
-              {% if taste.user_does_like %}
+              {% if taste.user_like %}
 
               <button type="button" id="dislike" class="dislike">
                 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
@@ -154,7 +154,7 @@
                 </svg><span id="liknum">{{taste.post_likes}}</span>
               </button>
 
-              {% elif taste.user_does_dislike %}
+              {% elif taste.user_dislike %}
 
               <button type="button" id="dislike" class="idislike">
                 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
@@ -326,13 +326,13 @@
       success: function (data) {
         $("#liknum").text(data.post_likes);
         $("#disnum").text(data.post_dislikes);
-        if (data.user_does_like && !data.user_does_dislike) {
+        if (data.user_like && !data.user_dislike) {
           $("#like").removeClass("like").addClass("ilike");
           $("#dislike").removeClass("idislike").addClass("dislike");
-        } else if (!data.user_does_like && !data.user_does_dislike) {
+        } else if (!data.user_like && !data.user_dislike) {
           $("#like").removeClass("ilike").addClass("like");
           $("#dislike").removeClass("idislike").addClass("dislike");
-        } else if (!data.user_does_like && data.user_does_dislike) {
+        } else if (!data.user_like && data.user_dislike) {
           $("#dislike").removeClass("dislike").addClass("idislike");
           $("#like").removeClass("ilike").addClass("like");
         }
