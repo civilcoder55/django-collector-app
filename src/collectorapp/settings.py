@@ -3,6 +3,16 @@ import os
 
 from .config import *
 
+if APP_ENV == 'dev':
+
+    DEBUG = 1
+
+    # DJANGO DEBUG BAR
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda r: True,
+    }
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -164,13 +174,45 @@ CACHES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
+# Celery
+CELERY_BROKER_URL = REDIS_URI
+CELERY_RESULT_BACKEND = REDIS_URI
+CELERY_ACCEPT_CONTENT = ['application/x-python-serialize']
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERY_TASK_SERIALIZER = 'pickle'
 
-if APP_ENV == 'dev':
 
-    DEBUG = 1
-
-    # DJANGO DEBUG BAR
-    DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TOOLBAR_CALLBACK': lambda r: True,
-    }
-    
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "rich": {
+            "datefmt": "[%X]"
+        },
+        'verbose': {
+            'format': '{levelname} {asctime} {module}.py | {message}',
+            'style': '{',
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "rich.logging.RichHandler",
+            "formatter": "rich",
+            "rich_tracebacks": True
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            "formatter": "verbose",
+            'filename': './logs.log',
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"]
+        },
+        "collectorapp.logger": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"]
+        }
+    },
+}
