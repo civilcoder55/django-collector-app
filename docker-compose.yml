@@ -31,6 +31,24 @@ services:
         depends_on:
             - mysql
             - redis
+        image: collector-app-django
+        restart: unless-stopped
+
+    worker:
+        image: collector-app-django
+        container_name: collector-app-worker
+        volumes:
+            - ./src/:/usr/src/app/
+        networks:
+            - collector-app-network
+        env_file:
+            - ./.env
+        environment:
+            APP_ENV: 'worker'
+        depends_on:
+            - mysql
+            - redis
+        restart: unless-stopped
 
     nginx:
         build: ./nginx
@@ -43,6 +61,8 @@ services:
             - 8000:80
         depends_on:
             - django
+        image: collector-app-nginx
+        restart: unless-stopped
 
 networks:
     collector-app-network:
