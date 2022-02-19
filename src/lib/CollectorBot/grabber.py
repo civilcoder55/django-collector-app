@@ -68,17 +68,22 @@ class Grabber:
                      'x-guest-token': cls.guest_token})
 
         if res.status_code == 403:
-            cls.get_guest_token = None
-            return cls.get_guest_token(thread_id, cursor)
+            cls.guest_token = None
+            return cls.grab_thread_tweets_ids(
+                thread_id=thread_id, cursor=cursor)
 
         matches = re.findall(
             r"conversationthread-(?:[0-9]*)-tweet-([0-9]*)", res.text)
+
         if len(matches) < 30:
             return matches
 
-        have_more = re.search(
+        has_more = re.search(
             r'"value":"(.*)","cursorType":"ShowMore"', res.text)
-        if have_more:
-            cursor = have_more.group(1)
+
+        if has_more:
+            cursor = has_more.group(1)
             return matches + cls.grab_thread_tweets_ids(
                 thread_id=thread_id, cursor=cursor)
+        else:
+            return matches
