@@ -44,10 +44,9 @@ services:
         env_file:
             - ./.env
         environment:
-            APP_ENV: 'worker'
+            WORKER: 1
         depends_on:
-            - mysql
-            - redis
+            - django
         restart: unless-stopped
 
     nginx:
