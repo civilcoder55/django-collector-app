@@ -190,7 +190,7 @@ LOGGING = {
             "datefmt": "[%X]"
         },
         'verbose': {
-            'format': '{levelname} {asctime} {module}.py | {message}',
+            'format': '[{levelname}:{asctime}] {message} [{pathname}:{lineno}]',
             'style': '{',
         },
     },
@@ -200,19 +200,24 @@ LOGGING = {
             "formatter": "rich",
             "rich_tracebacks": True
         },
-        'file': {
+        'collectorfile': {
             'class': 'logging.FileHandler',
             "formatter": "verbose",
-            'filename': './logs.log',
+            'filename': './collector.log',
+        },
+        'djangofile': {
+            'class': 'logging.FileHandler',
+            "formatter": "verbose",
+            'filename': './django.log',
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["console"]
+            "handlers": ["console",'djangofile']
         },
         "collectorapp.logger": {
             "level": "DEBUG",
-            "handlers": ["console", "file"]
+            "handlers": ["console", "collectorfile"]
         }
     },
 }

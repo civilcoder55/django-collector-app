@@ -14,10 +14,10 @@ class StreamListener(tweepy.Stream):
     def on_status(self, status):
         if 'collect' in status.text.lower().split(" "):
             add_status_to_queue.delay(status)
-            logger.info(f"status id:{status.id} added to worker queue")
+            logger.info(f"New mention added to worker queue")
 
     def on_error(self, status_code):
-        logger.error(f"tweepy stream has error with statusCode:{status_code}")
+        logger.error(f"Tweepy stream has error with statusCode:{status_code}")
         if status_code == 420:
             time.sleep(60)
             return True

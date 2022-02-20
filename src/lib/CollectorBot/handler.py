@@ -67,7 +67,7 @@ class Handler:
                         author_describtion=author_describtion, title=title,
                         thumnail_photo=thumnail_photo)
                     logger.info(
-                        f"collected {len(thread_tweets_ids) + 1} replies from thread id:{id} ")
+                        f"Collected {len(thread_tweets_ids) + 1} replies from thread id:{id} ")
                     cls.__add_post_to_user(
                         post=post, user_id=status.user.id_str)
 
@@ -75,7 +75,7 @@ class Handler:
                     cls.__send_notification(post)
 
         except Exception as e:
-            logger.exception(f"error handling {status.id}")
+            logger.exception(f"Error handling {status.id}")
 
     @staticmethod
     def __send_notification(post):
