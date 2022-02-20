@@ -21,7 +21,7 @@
               <span>{{post.created_at}}</span>
               <span>by {{post.author_screen_name}}</span>
             </div>
-            <h3 class="post__title">{{post.title}}</h3>
+            <h3 class="post__title" {% if post.rtl is True %} style="direction: rtl;" {% endif %}>{{post.title}}</h3>
             <div class="post__wrap">
               <a href="{% url 'post' id=post.id%}" class="post__link">Read more</a>
             </div>
@@ -44,7 +44,7 @@
             <span>{{post.created_at}}</span>
             <span>by {{post.author_screen_name}}</span>
           </div>
-          <h3 class="post__title">{{post.title}}</h3>
+          <h3 class="post__title" {% if post.rtl is True %} style="direction: rtl;" {% endif %}>{{post.title}}</h3>
           <div class="post__wrap">
             <a href="{% url 'post' id=post.id%}" class="post__link">Read more</a>
 
@@ -78,25 +78,6 @@
     element: $(".infinite-container")[0],
     handler: function (direction) { },
     offset: "bottom-in-view",
-  });
-</script>
-<script>
-  function isUnicode(str) {
-    var letters = [];
-    for (var i = 0; i <= str.length; i++) {
-      letters[i] = str.substring(i - 1, i);
-      if (letters[i].charCodeAt() > 255) {
-        return true;
-      }
-    }
-    return false;
-  }
-  $(document).ready(function (e) {
-    document.querySelectorAll(".post__title").forEach((e) => {
-      if (isUnicode(e.innerText)) {
-        e.style.direction = "rtl";
-      }
-    });
   });
 </script>
 {% endblock %}

@@ -19,13 +19,13 @@ def home(request):
 
     posts = Post.objects.annotate(Count('post_comments')).all().values(
         'id', 'thumnail_photo', 'created_at', 'author_screen_name',
-        'title', 'post_comments__count').order_by('-created_at')
+        'title', 'rtl', 'post_comments__count').order_by('-created_at')
     posts = paginate(objects=posts, page=page, objects_per_page=12)
 
     random_posts = cache.get(f'random_posts')
     if not random_posts:
         random_posts = Post.objects.all().values(
-            'id', 'thumnail_photo', 'created_at', 'author_screen_name',
+            'id', 'thumnail_photo', 'created_at', 'author_screen_name', 'rtl',
             'title').order_by('?')[:5]
         cache.set(f'random_posts', random_posts, timeout=60*15)
 
@@ -81,7 +81,7 @@ def toggle_like(request, id):
 @login_required
 def toggle_dislike(request, id):
     post = Post.objects.filter(id=id).first()
-    if post and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' :
+    if post and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         user_like = post.likes.filter(username=request.user.username).exists()
         user_dislike = post.dislikes.filter(
             username=request.user.username).exists()

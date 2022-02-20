@@ -14,6 +14,7 @@ class Post(models.Model):
     author_screen_name = models.CharField(max_length=64)
     author_name = models.CharField(max_length=64)
     author_describtion = models.CharField(max_length=250)
+    rtl = models.BooleanField(default=True)
     thumnail_photo = models.CharField(max_length=150)
     likes = models.ManyToManyField(User, blank=True, related_name='post_likes')
     dislikes = models.ManyToManyField(

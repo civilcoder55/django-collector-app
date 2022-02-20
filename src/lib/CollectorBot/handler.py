@@ -47,6 +47,11 @@ class Handler:
                 except Exception:
                     thumnail_photo = '<img src="/static/img/default-thum.jpg" height="300" width="400">'
 
+                if thread.lang == "ar":
+                    rtl = True
+                else:
+                    rtl = False
+                
                 thread_tweets_ids = Grabber.grab_thread_tweets_ids(id)
                 if len(thread_tweets_ids) > 0:
                     content = [thread.full_text+'<br><br>']
@@ -65,7 +70,7 @@ class Handler:
                         author_screen_name=author_screen_name,
                         author_photo=author_photo,
                         author_describtion=author_describtion, title=title,
-                        thumnail_photo=thumnail_photo)
+                        thumnail_photo=thumnail_photo,rtl=rtl)
                     logger.info(
                         f"Collected {len(thread_tweets_ids) + 1} replies from thread id:{id} ")
                     cls.__add_post_to_user(
