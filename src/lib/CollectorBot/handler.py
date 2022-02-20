@@ -4,6 +4,7 @@ import tweepy
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.conf import settings
+from django.urls import reverse
 from posts.models import Post
 from social_django.models import UserSocialAuth
 from utils.logger import logger
@@ -23,16 +24,9 @@ class Handler:
             post = Post.objects.filter(
                 id=status.in_reply_to_status_id).first()
             if post:
-                collector_user = UserSocialAuth.objects.filter(
-                    uid=status.user.id_str).first()
-                if collector_user:
-                    post.username.add(collector_user.user_id)
-                url = f'{settings.APP_URL}/post/{post.id}'
-                # r = requests.get(
-                #     f'https://tinyurl.com/api-create.php?source=create&url={url}')
-                # api.update_status(
-                #     f'@{status.user.screen_name} Your 🧵 post is ready {r.text}',
-                #     status.id)
+                cls.__add_post_to_user(
+                    post=post, user_id=status.user.id_str)
+                cls.__reply_to_status(status=status, old=True)
 
             else:
                 id = status.in_reply_to_status_id
@@ -74,26 +68,41 @@ class Handler:
                         thumnail_photo=thumnail_photo)
                     logger.info(
                         f"collected {len(thread_tweets_ids) + 1} replies from thread id:{id} ")
-                    collector_user = UserSocialAuth.objects.filter(
-                        uid=status.user.id_str).values('user_id').first()
-                    if collector_user:
-                        post.username.add(collector_user['user_id'])
-                    # r = requests.get(
-                    #     f'https://tinyurl.com/api-create.php?source=create&url=https://thecollect0rapp.com/post/{thread_id}')
-                    reply = f''' @{status.user.screen_name} 🧵 saved locally '''
-                    cls.tweepy_client.update_status(
-                        status=reply, in_reply_to_status_id=status.id)
+                    cls.__add_post_to_user(
+                        post=post, user_id=status.user.id_str)
 
-                    cls.send_notification(post)
+                    cls.__reply_to_status(status=status)
+                    cls.__send_notification(post)
 
         except Exception as e:
             logger.exception(f"error handling {status.id}")
 
     @staticmethod
-    def send_notification(post):
+    def __send_notification(post):
         channel_layer = get_channel_layer()
         async_to_sync(
             channel_layer.group_send)(
             "notifier",
             {"type": "send.notification", "id": str(post.id),
              "thumnail_photo": post.thumnail_photo, "title": post.title})
+
+    @classmethod
+    def __add_post_to_user(cls, post, user_id):
+        collector_user = UserSocialAuth.objects.filter(
+            uid=user_id).values('user_id').first()
+        if collector_user:
+            post.username.add(collector_user['user_id'])
+
+    @classmethod
+    def __reply_to_status(cls, status, old=False):
+        if settings.APP_ENV == "dev":
+            if old:
+                reply = f''' @{status.user.screen_name} 🧵 already saved locally '''
+            else:
+                reply = f''' @{status.user.screen_name} 🧵 saved locally '''
+        else:
+            path = reverse('post', args=(status.in_reply_to_status_id,))
+            reply = f''' @{status.user.screen_name} here your requested 🧵 {settings.APP_URL}{path} '''
+
+        cls.tweepy_client.update_status(
+            status=reply, in_reply_to_status_id=status.id)
