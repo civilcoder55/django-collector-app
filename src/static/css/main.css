@@ -550,6 +550,18 @@ ul {
   font-family: "cairo-semibold";
   font-weight: normal;
 }
+
+.tw-block {
+  font-size: 16px;
+  line-height: 28px;
+  color: #fff;
+  margin-bottom: 0;
+  margin-top: 30px;
+  text-align: center;
+  font-family: "cairo-semibold";
+  font-weight: normal;
+}
+
 .article__list {
   margin-top: 30px;
   text-align: right;

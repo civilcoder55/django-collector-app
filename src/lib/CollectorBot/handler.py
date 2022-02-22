@@ -51,26 +51,27 @@ class Handler:
                     rtl = True
                 else:
                     rtl = False
-                
+
                 thread_tweets_ids = Grabber.grab_thread_tweets_ids(id)
                 if len(thread_tweets_ids) > 0:
-                    content = [thread.full_text+'<br><br>']
+                    content = ['<div class="tw-block">'+thread.full_text+'</div>']
                     for tweet_id in thread_tweets_ids:
                         tweet = cls.tweepy_client.get_status(
                             tweet_id, tweet_mode='extended')
                         if tweet.user.id != thread.user.id:
                             break
                         Cleaner.clean_tweet(tweet)
-                        content.append(tweet.full_text+'<br><br>')
+                        content.append(
+                            '<div class="tw-block">' + tweet.full_text+'</div>')
                     content = ''.join(content)
-                    content = "<p class='article__text'>" + content + '<br><br> </p>'
+
 
                     post = Post.objects.create(
                         id=id, content=content, author_name=author_name,
                         author_screen_name=author_screen_name,
                         author_photo=author_photo,
                         author_describtion=author_describtion, title=title,
-                        thumnail_photo=thumnail_photo,rtl=rtl)
+                        thumnail_photo=thumnail_photo, rtl=rtl)
                     logger.info(
                         f"Collected {len(thread_tweets_ids) + 1} replies from thread id:{id} ")
                     cls.__add_post_to_user(

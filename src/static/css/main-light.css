@@ -1,8 +1,10 @@
 @font-face {
   font-family: "cairo-regular";
   src: url("../fonts/cairo-regular-webfont.eot");
-  src: url("../fonts/cairo-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/cairo-regular-webfont.woff2") format("woff2"),
-    url("../fonts/cairo-regular-webfont.woff") format("woff"), url("../fonts/cairo-regular-webfont.ttf") format("truetype"),
+  src: url("../fonts/cairo-regular-webfont.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/cairo-regular-webfont.woff2") format("woff2"),
+    url("../fonts/cairo-regular-webfont.woff") format("woff"),
+    url("../fonts/cairo-regular-webfont.ttf") format("truetype"),
     url("../fonts/cairo-regular-webfont.svg#cairo-regular-webfont") format("svg");
   font-style: normal;
   font-weight: normal;
@@ -10,8 +12,10 @@
 @font-face {
   font-family: "cairo-semibold";
   src: url("../fonts/cairo-semibold-webfont.eot");
-  src: url("../fonts/cairo-semibold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/cairo-semibold-webfont.woff2") format("woff2"),
-    url("../fonts/cairo-semibold-webfont.woff") format("woff"), url("../fonts/cairo-semibold-webfont.ttf") format("truetype"),
+  src: url("../fonts/cairo-semibold-webfont.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/cairo-semibold-webfont.woff2") format("woff2"),
+    url("../fonts/cairo-semibold-webfont.woff") format("woff"),
+    url("../fonts/cairo-semibold-webfont.ttf") format("truetype"),
     url("../fonts/cairo-semibold-webfont.svg#cairo-semibold-webfont") format("svg");
   font-style: normal;
   font-weight: normal;
@@ -25,7 +29,7 @@ body {
   height: 100%;
 }
 body {
-  font-family: "cairo-regular";
+  font-family: "cairo-semibold";
   background-color: #ececec;
   -webkit-font-smoothing: antialiased;
 }
@@ -526,8 +530,6 @@ ul {
   border-radius: 6px;
   overflow: hidden;
 }
-.article__gallery img {
-}
 .article__text {
   font-size: 16px;
   line-height: 28px;
@@ -537,6 +539,16 @@ ul {
   text-align: center;
 }
 .article__text b {
+  font-family: "cairo-semibold";
+  font-weight: normal;
+}
+.tw-block {
+  font-size: 16px;
+  line-height: 28px;
+  color: #222831;
+  margin-bottom: 0;
+  margin-top: 30px;
+  text-align: center;
   font-family: "cairo-semibold";
   font-weight: normal;
 }
@@ -1106,4 +1118,3 @@ ul {
 .mfp-fade.mfp-wrap.mfp-removing .mfp-content {
   opacity: 0;
 }
-

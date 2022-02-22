@@ -27,6 +27,13 @@
     margin: 0 auto;
   }
 </style>
+{% if post.rtl is True %}
+<style>
+  .tw-block {
+    direction: rtl;
+  }
+</style>
+{% endif %}
 <section class="section section--first">
   <div class="container">
     <div class="row">
@@ -262,7 +269,8 @@
               <h4 class="form__title">Add a comment</h4>
             </div>
             <div class="col-12">
-              <textarea name="text" cols="40" rows="10" class="form__textarea" placeholder="Write your comment" required></textarea>
+              <textarea name="text" cols="40" rows="10" class="form__textarea" placeholder="Write your comment"
+                required></textarea>
             </div>
 
             <div class="col-12">
@@ -361,11 +369,11 @@
   }
   $(document).ready(function (e) {
 
-    document.querySelectorAll('.article__text').forEach((e) => {
-      if (isUnicode(e.innerText)) {
-        e.style.direction = 'rtl'
-      }
-    })
+    // document.querySelectorAll('.article__text').forEach((e) => {
+    //   if (isUnicode(e.innerText)) {
+    //     e.style.direction = 'rtl'
+    //   }
+    // })
     document.querySelectorAll('.desc').forEach((e) => {
       if (isUnicode(e.innerText)) { e.style.direction = 'rtl' }
     })

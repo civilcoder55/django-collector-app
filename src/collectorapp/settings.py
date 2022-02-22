@@ -9,7 +9,7 @@ if APP_ENV == 'dev':
 
     # DJANGO DEBUG BAR
     DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TOOLBAR_CALLBACK': lambda r: True,
+        'SHOW_TOOLBAR_CALLBACK': lambda r: not r.path.startswith("/pdf"),
     }
 
 
@@ -143,6 +143,9 @@ LOGIN_URL = '/login/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -213,7 +216,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console",'djangofile']
+            "handlers": ["console", 'djangofile']
         },
         "collectorapp.logger": {
             "level": "DEBUG",

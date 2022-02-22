@@ -1,4 +1,3 @@
-import pdfkit
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
@@ -8,6 +7,7 @@ from django.http import (HttpResponse, HttpResponseForbidden,
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
+from pyppeteer import launch
 from utils.helpers import paginate
 
 from . import forms
@@ -140,16 +140,25 @@ class PostView(View):
 def view_pdf(request, id):
     post = Post.objects.filter(id=id).first()
     if post:
-        return render(
-            request, 'posts/pdf.html',
-            {'title': post.title, 'content': post.content, })
+        return render(request, 'posts/pdf.html', {'post': post})
     return HttpResponseRedirect(reverse('home'))
 
 
-def download_pdf(request, id):
+async def download_pdf(request, id):
     # get view_pdf path => /pdf/view/1221554458
+    # path = reverse('view_pdf', args=(id,))
+    # pdf = pdfkit.from_url(f'{settings.APP_URL}{path}')
+    # response = HttpResponse(pdf, content_type='application/pdf')
+    # response['Content-Disposition'] = f'attachment; filename="{str(id)}.pdf"'
+    # return response
+
+    browser = await launch(options={'args': ['--no-sandbox']}, handleSIGINT=False, handleSIGTERM=False, handleSIGHUP=False)
+    page = await browser.newPage()
     path = reverse('view_pdf', args=(id,))
-    pdf = pdfkit.from_url(f'{settings.APP_URL}{path}', False)
+    await page.goto(f'{settings.APP_URL}{path}')
+    pdf = await page.pdf({"format": 'A4'})
+    await browser.close()
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{str(id)}.pdf"'
+    response['Content-Length'] = len(pdf)
     return response
