@@ -2,10 +2,10 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.db.models import Count
-from django.http import (HttpResponse, HttpResponseForbidden,
-                         HttpResponseRedirect, JsonResponse)
+from django.http import (HttpResponse, HttpResponseForbidden,JsonResponse)
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from pyppeteer import launch
 from utils.helpers import paginate
@@ -109,7 +109,7 @@ def toggle_dislike(request, id):
 
 class PostView(View):
 
-    @login_required
+    @method_decorator(login_required)
     def post(self, request, id):
         comment_form = forms.comment(request.POST)
         if comment_form.is_valid():
@@ -117,7 +117,7 @@ class PostView(View):
             comment.post = Post.objects.filter(id=id).first()
             comment.user = request.user
             comment.save()
-            return redirect('/post/'+str(id)+'#commentbox')
+            return redirect('/post/'+str(id)+'#commentBox')
 
     def get(self, request, id):
         post = Post.objects.filter(id=id).first()
@@ -134,14 +134,14 @@ class PostView(View):
                 request, 'posts/post.html',
                 {'title': post.title, 'post': post, 'comments': comments,
                  'taste': taste})
-        return HttpResponseRedirect(reverse('home'))
+        return redirect('home')
 
 
 def view_pdf(request, id):
     post = Post.objects.filter(id=id).first()
     if post:
         return render(request, 'posts/pdf.html', {'post': post})
-    return HttpResponseRedirect(reverse('home'))
+    return reverse('home')
 
 
 async def download_pdf(request, id):

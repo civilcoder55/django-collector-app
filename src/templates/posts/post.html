@@ -261,8 +261,7 @@
       </div>
 
       <div class="col-12">
-        {% if user.is_authenticated %}
-        <form method="POST" class="form form--comment">
+        <form method="POST" class="form form--comment" id="commentBox">
           {% csrf_token %}
           <div class="row">
             <div class="col-12">
@@ -272,33 +271,15 @@
               <textarea name="text" cols="40" rows="10" class="form__textarea" placeholder="Write your comment"
                 required></textarea>
             </div>
-
             <div class="col-12">
+              {% if user.is_authenticated %}
               <button class="form__btn" type="submit">Comment</button>
-            </div>
-          </div>
-        </form>
-        {% else %}
-        <form class="form form--comment">
-          <div class="row">
-            <div class="col-12">
-              <h4 class="form__title">Add a comment</h4>
-            </div>
-            <div class="col-12">
-              {{comment_form.text}}
-            </div>
-
-            <div class="col-12">
+              {% else %}
               <button class="form__btn" type="button" onclick="alert()">Comment</button>
+              {% endif %}
             </div>
           </div>
         </form>
-        <script>
-          function alert() {
-            Swal.fire("please login!", "You should be a user to comment!", "error");
-          }
-        </script>
-        {% endif %}
       </div>
     </div>
   </div>
@@ -359,6 +340,9 @@
 </script>
 {% endif %}
 <script>
+  function alert() {
+    Swal.fire("please login!", "You should be a user to comment!", "error");
+  }
   function isUnicode(str) {
     var letters = [];
     for (var i = 0; i <= str.length; i++) {
