@@ -11,7 +11,7 @@
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
 
-  <meta name="description" content="" />
+  <meta name="description" content="BlogPost & Twitter Bot" />
   <meta name="keywords" content="" />
   <title>{{title}} | TheCollector</title>
 </head>
@@ -22,6 +22,41 @@
       <div class="row">
         <div class="col-12">
           <div class="header__content">
+            <a href="{% url 'home' %}" class="header__logo">
+              <img src="{% static 'img/logo.png' %}" alt="" />
+            </a>
+            <button href="#" class="header__color" id="switch" aria-label="switch-mode">
+              <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+                <line x1="256" y1="48" x2="256" y2="96"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <line x1="256" y1="416" x2="256" y2="464"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <line x1="403.08" y1="108.92" x2="369.14" y2="142.86"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <line x1="142.86" y1="369.14" x2="108.92" y2="403.08"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <line x1="464" y1="256" x2="416" y2="256"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <line x1="96" y1="256" x2="48" y2="256"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <line x1="403.08" y1="403.08" x2="369.14" y2="369.14"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <line x1="142.86" y1="142.86" x2="108.92" y2="108.92"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+                <circle cx="256" cy="256" r="80"
+                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
+              </svg>
+            </button>
+            <nav class="header__nav">
+              <a href="{% url 'home' %}">Home</a>
+              {% if user.is_authenticated %}
+              <a href="{% url 'my_posts' %}">My Posts</a>
+              <a href="{% url 'profile' %}">My profile</a>
+              {% else %}
+              <a href="{% url 'register' %}">Register</a>
+              {% endif %}
+              <a href="{% url 'about' %}">How to use</a>
+            </nav>
             {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" class="header__login"><svg xmlns="http://www.w3.org/2000/svg" width="512"
                 height="512" viewBox="0 0 512 512">
@@ -45,44 +80,7 @@
                   style="fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 32px" />
               </svg><span>Login</span></a>
             {% endif %}
-            <button href="#" class="header__color" id="swap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-                <line x1="256" y1="48" x2="256" y2="96"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <line x1="256" y1="416" x2="256" y2="464"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <line x1="403.08" y1="108.92" x2="369.14" y2="142.86"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <line x1="142.86" y1="369.14" x2="108.92" y2="403.08"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <line x1="464" y1="256" x2="416" y2="256"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <line x1="96" y1="256" x2="48" y2="256"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <line x1="403.08" y1="403.08" x2="369.14" y2="369.14"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <line x1="142.86" y1="142.86" x2="108.92" y2="108.92"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-                <circle cx="256" cy="256" r="80"
-                  style="fill: none; stroke-linecap: round; stroke-miterlimit: 10; stroke-width: 32px" />
-              </svg>
-            </button>
-            <nav class="header__nav">
-              {% if user.is_authenticated %}
-              <a href="{% url 'home' %}">Home</a>
-              <a href="{% url 'my_posts' %}">My Posts</a>
-              <a href="{% url 'profile' %}">My profile</a>
-              <a href="{% url 'about' %}">How to use</a>
-              {% else %}
-              <a href="{% url 'home' %}">Home</a>
-              <a href="{% url 'register' %}">Register</a>
-              <a href="{% url 'about' %}">How to use</a>
-              {% endif %}
-            </nav>
-            <a href="{% url 'home' %}" class="header__logo">
-              <img src="{% static 'img/logo.png' %}" alt="" />
-            </a>
-            <button class="header__menu" type="button">
+            <button class="header__menu" type="button" aria-label="header-menu">
               <span></span>
               <span></span>
               <span></span>
@@ -100,11 +98,10 @@
       <div class="row">
         <div class="col-12">
           <div class="footer__content">
-            <small class="footer__copyright"></small>
-
             <a href="#" class="footer__logo">
               <img src="{% static 'img/logo.png' %}" alt="" />
             </a>
+            <small class="footer__copyright"></small>
           </div>
         </div>
       </div>
@@ -148,7 +145,7 @@
     };
 
     socket.onmessage = function recieve(message) {
-      
+
       const data = JSON.parse(message.data);
       const post = data.event
       console.log(post)

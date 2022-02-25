@@ -113,7 +113,7 @@ $(document).ready(function () {
     return "";
   }
 
-  function swapMode() {
+  function switchMode() {
     const mode = getCookie("mode");
     if (mode == "normal") {
       document.cookie = "mode=;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
@@ -137,6 +137,26 @@ $(document).ready(function () {
     document.getElementById("mode").setAttribute("href", lightModeCss);
   }
 
-  const swapButton = document.getElementById("swap");
-  if (swapButton) swapButton.onclick = swapMode;
+  const switchButton = document.getElementById("switch");
+  if (switchButton) switchButton.onclick = switchMode;
+
+  /*==============================
+	Posts
+	==============================*/
+  function isUnicode(str) {
+    var letters = [];
+    for (var i = 0; i <= str.length; i++) {
+      letters[i] = str.substring(i - 1, i);
+      if (letters[i].charCodeAt() > 255) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  document.querySelectorAll(".description-block").forEach((e) => {
+    if (isUnicode(e.innerText)) {
+      e.style.direction = "rtl";
+    }
+  });
 });

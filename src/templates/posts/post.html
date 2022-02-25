@@ -42,7 +42,7 @@
           <img class="comments__avatar" src="{{post.author_photo}}" alt="" style="width: 88px;height:88px">
           <span class="comments__name"><a href="https://twitter.com/{{post.author_screen_name}}"
               target="_blank">{{post.author_name}}</a></span>
-          <p class="comments__text desc">{{post.author_describtion}}</p></span></span>
+          <p class="comments__text description-block">{{post.author_describtion}}</p></span></span>
         </div>
       </div>
       <div class="col-12" style="margin-top: 50px;">
@@ -246,7 +246,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12">
         <ul class="comments">
           {% for comment in comments %}
@@ -256,14 +255,11 @@
               <span class="comments__name">{{comment.user.username}}</span>
               <span class="comments__time">{{comment.created_at}}</span>
             </div>
-
             <p class="comments__text">{{comment.text}}</p>
           </li>
-
           {% endfor %}
         </ul>
       </div>
-
       <div class="col-12">
         <form method="POST" class="form form--comment" id="commentBox">
           {% csrf_token %}
@@ -299,13 +295,7 @@
   </div>
 </section>
 
-{% endblock %} {% block script %} {% if not user.is_authenticated %}
-<script>
-  $(document).ready(() => {
-    $(".form__textarea").attr("disabled", "");
-  });
-</script>
-{% endif %} {% if user.is_authenticated %}
+{% endblock %} {% block script %} {% if user.is_authenticated %}
 <script>
   function sendTaste(type) {
     $.ajax({
@@ -333,7 +323,12 @@
 </script>
 {% else %}
 <script>
+  function alert() {
+    Swal.fire("please login!", "You should be a user to comment!", "error");
+  }
+
   $(document).ready(function (e) {
+    $(".form__textarea").attr("disabled", "");
     $("#like").click(function (e) {
       Swal.fire("please login!", "You should be a user to like!", "error");
     });
@@ -343,30 +338,5 @@
   });
 </script>
 {% endif %}
-<script>
-  function alert() {
-    Swal.fire("please login!", "You should be a user to comment!", "error");
-  }
-  function isUnicode(str) {
-    var letters = [];
-    for (var i = 0; i <= str.length; i++) {
-      letters[i] = str.substring((i - 1), i);
-      if (letters[i].charCodeAt() > 255) { return true; }
-    }
-    return false;
-  }
-  $(document).ready(function (e) {
-
-    // document.querySelectorAll('.article__text').forEach((e) => {
-    //   if (isUnicode(e.innerText)) {
-    //     e.style.direction = 'rtl'
-    //   }
-    // })
-    document.querySelectorAll('.desc').forEach((e) => {
-      if (isUnicode(e.innerText)) { e.style.direction = 'rtl' }
-    })
-
-  });
-</script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% endblock %}
