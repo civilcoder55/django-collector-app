@@ -1,6 +1,12 @@
-# collector-app
+<p align="center">
+  <img src="screenshots/logo.svg" alt="Logo" width="200" height="100">
 
-> blog and twitter bot to pull tweets chains into blog post to read/save easily .
+  <h3 align="center">Collector App</h3>
+
+  <p align="center">
+      Blog and twitter bot to pull tweets chains into blog post to read/save easily
+  </p>
+</p>
 
 ## Screenshots
 
@@ -13,16 +19,19 @@
 ## Usage
 
 1. Clone the repo
+
    ```sh
    git clone https://github.com/civilcoder55/django-collector-app.git
    ```
 
 2. update env file
+
    ```sh
    cp .env.example .env
    ```
 
 3. run containers
+
    ```sh
    docker-compose up -d
    ```
@@ -33,9 +42,10 @@
    ```
 
 ## Features
+
 - pulling tweets chains into blog post.
 - authentication system.
-- twitter oauth for login and linking account. 
+- twitter oauth for login and linking account.
 - two factor authentication with otp.
 - comment, like, dislike posts.
 - save post as pdf.
