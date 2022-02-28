@@ -205,9 +205,17 @@ ul {
   stroke: #fff;
 }
 .header__logo {
-  /* margin-left: auto;
-  margin-right: 42px; */
   margin: 0;
+}
+.header__logo h2 {
+  font-family: "cairo-regular";
+  color: #666ee8;
+  margin-bottom: 0;
+}
+.footer__logo h2 {
+  font-family: "cairo-regular";
+  color: #666ee8;
+  margin-bottom: 0;
 }
 .header__menu {
   position: absolute;
@@ -306,8 +314,6 @@ ul {
     display: none;
   }
   .header__logo {
-    /* margin-right: 0;
-    margin-left: 100px; */
     margin: 0;
   }
   .header__nav {
@@ -347,7 +353,6 @@ ul {
   color: #ececec;
   font-family: "cairo-semibold";
   font-weight: normal;
-  text-align: right;
   margin-bottom: 0;
   margin-top: 30px;
 }
@@ -412,14 +417,13 @@ ul {
 .post__meta {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-top: 20px;
 }
 .post__meta span {
   color: #ececec;
   font-size: 12px;
-  margin-left: 20px;
   line-height: 100%;
 }
 .post__title {
@@ -427,9 +431,8 @@ ul {
   width: 100%;
   height: 120px;
   font-size: 16px;
-  line-height: 28px;
+  line-height: 30px;
   font-weight: normal;
-  text-align: right;
   color: #fff;
   margin-bottom: 0;
   margin-top: 20px;
@@ -572,7 +575,9 @@ ul {
   font-family: "cairo-semibold";
   font-weight: normal;
 }
-
+.tw-block a {
+  direction: ltr !important;
+}
 .article__list {
   margin-top: 30px;
   text-align: right;
@@ -1087,8 +1092,10 @@ ul {
   min-height: 100vh;
   padding: 40px 0;
 }
-.page__logo {
-  margin-bottom: 10px;
+.page__logo h2 {
+  font-family: "cairo-regular";
+  color: #666ee8;
+  margin-bottom: 0;
 }
 .footer {
   position: relative;

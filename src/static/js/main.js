@@ -129,14 +129,7 @@ $(document).ready(function () {
     }
   }
 
-  const mode = getCookie("mode");
-
-  if (mode != "normal" && mode != "dark") {
-    document.cookie = "mode=dark;path=/;expires=Fri Dec 31 9999 14:00:00 GMT+0200;";
-  } else if (mode == "normal") {
-    document.getElementById("mode").setAttribute("href", lightModeCss);
-  }
-
+  
   const switchButton = document.getElementById("switch");
   if (switchButton) switchButton.onclick = switchMode;
 

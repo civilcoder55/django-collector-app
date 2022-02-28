@@ -16,7 +16,6 @@ from .models import Comment, Post
 
 def home(request):
     page = request.GET.get('page', 1)
-
     posts = Post.objects.annotate(Count('post_comments')).all().values(
         'id', 'thumnail_photo', 'created_at', 'author_screen_name',
         'title', 'rtl', 'post_comments__count').order_by('-created_at')
@@ -30,7 +29,7 @@ def home(request):
         cache.set(f'random_posts', random_posts, timeout=60*15)
 
     context = {'title': 'Home', 'posts': posts, 'random_posts': random_posts}
-    return render(request, 'main/index.html', context)
+    return render(request, 'posts/index.html', context)
 
 
 @login_required

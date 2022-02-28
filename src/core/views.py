@@ -9,27 +9,30 @@ from django.utils.http import http_date
 
 
 def about(request):
-    return render(request, 'main/about.html', {'title': 'The Collector APP'})
+    return render(request, 'core/about.html', {'title': 'About'})
 
 
 def handler404(request, *args, **kwargs):
     return render(
-        request, 'main/Error.html',
-        {'title': 'Page not found', 'head': 'Not Found', 'status': '404'},
+        request, 'core/error.html',
+        {'title': '404', 'message': 'Page Not Found', 'status': '404'},
         status=404,)
 
 
 def handler500(request, *args, **kwargs):
     return render(
-        request, 'main/Error.html',
-        {'title': 'Server Error', 'head': 'Server Error', 'status': '500'},
+        request, 'core/error.html',
+        {'title': '500', 'message': 'Internal Server Error', 'status': '500'},
         status=500)
 
 
 def inuse(request):
     return render(
-        request, 'main/inuse.html',
-        {'title': 'Account is already in use ', 'status': '403'},)
+        request, 'core/error.html',
+        {'title': '403 ',
+         'message':
+         'Twitter account is already linked to another user in our site',
+         'status': '403'},)
 
 
 def media(request, path):

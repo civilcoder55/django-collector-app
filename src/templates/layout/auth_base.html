@@ -11,7 +11,7 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
 
-    <meta name="description" content="" />
+    <meta name="description" content="BlogPost & Twitter Bot" />
     <meta name="keywords" content="" />
     <title>{{title}} | TheCollector</title>
 </head>
@@ -22,9 +22,8 @@
             <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                 <div class="page">
                     <a href="{% url 'home' %}" class="page__logo">
-                        <img src="{% static 'img/logo.png' %}" alt="" />
+                        <h2>TheCollector</h2>
                     </a>
-
                     {% block content %} {% endblock %}
                 </div>
             </div>
