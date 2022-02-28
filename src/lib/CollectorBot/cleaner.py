@@ -14,27 +14,27 @@ class Cleaner:
                 expanded_url = url["expanded_url"]
                 index = url["indices"][0]
                 display_url = url["display_url"]
-                if "status" and "twitter.com" in expanded_url:
+                if "status" in expanded_url and "twitter.com" in expanded_url:
                     text.insert(
                         index,
                         f''' <br><br></p><blockquote class="twitter-tweet"><a href="{expanded_url}"></a></blockquote><p class="article__text"><br><br> ''')
-                elif 'youtu.be' or 'youtube' in expanded_url:
-                    if 'watch' in url:
+                elif 'youtu.be' in expanded_url or 'youtube' in expanded_url:
+                    if 'watch' in expanded_url:
                         text.insert(
                             index,
                             f''' <br><br><iframe width="500" height="300" src="{expanded_url.replace('watch?v=','embed/')}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br> ''')
-                    elif 'channel' or 'user' in expanded_url:
+                    elif 'channel' in expanded_url or 'user' in expanded_url:
                         text.insert(
                             index,
-                            f''' <br><br><a target="_blank" href="{expanded_url}">{display_url}</a><br><br> ''')
+                            f''' <br><br><a target="_blank" dir href="{expanded_url}">{display_url}</a><br><br> ''')
                     else:
                         text.insert(
                             index,
-                            f'''<br><br><iframe width="500" height="300" src="https://www.youtube.com/embed/{url.split('/')[-1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br>''')
+                            f'''<br><br><iframe width="500" height="300" src="https://www.youtube.com/embed/{expanded_url.split('/')[-1]}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br>''')
                 else:
                     text.insert(
                         index,
-                        f''' <br><br><a target="_blank" href="{expanded_url}">{display_url}</a><br><br> ''')
+                        f''' <br><br><a target="_blank" dir href="{expanded_url}">{display_url}</a><br><br> ''')
             tweet.full_text = ''.join(text)
 
         except:
