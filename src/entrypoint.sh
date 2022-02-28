@@ -7,7 +7,7 @@ python manage.py migrate
 
 if [ "$WORKER" ]
 then
-    celery -A collectorapp worker -c 1 & python manage.py runscript collect
+    celery -A collectorapp worker -c 1 & python manage.py runscript start-stream
 
 elif [ "$APP_ENV" = "dev" ]
 then
