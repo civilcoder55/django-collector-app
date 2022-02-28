@@ -129,7 +129,6 @@ $(document).ready(function () {
     }
   }
 
-  
   const switchButton = document.getElementById("switch");
   if (switchButton) switchButton.onclick = switchMode;
 
@@ -153,3 +152,5 @@ $(document).ready(function () {
     }
   });
 });
+
+

@@ -16,7 +16,7 @@
 <section class="section section--profile section--last">
 	<div class="container">
 		<div class="row">
-			<div class="col-12 col-md-7 col-lg-8 order-2 order-md-1">
+			<div class="col-12 col-md-7 col-lg-8 order-2 order-md-2">
 				{% if type == 'None' %}
 				<form action="{% url '2fa_activate' %}" class="form">
 					<div class="row">
@@ -85,7 +85,7 @@
 				{% endif %}
 			</div>
 
-			<div class="col-12 col-md-5 col-lg-4 order-1 order-md-2">
+			<div class="col-12 col-md-5 col-lg-4 order-1 order-md-1">
 				<div class="profile">
 					<div class="profile__head">
 						<span>{{user.first_name}} {{user.last_name}}</span>

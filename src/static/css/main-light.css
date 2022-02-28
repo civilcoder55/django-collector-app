@@ -1,3 +1,15 @@
+.alert-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
 @font-face {
   font-family: "cairo-regular";
   src: url("../fonts/cairo-regular-webfont.eot");
@@ -201,12 +213,12 @@ ul {
   margin: 0;
 }
 .header__logo h2 {
-  font-family: 'cairo-regular';
+  font-family: "cairo-regular";
   color: #666ee8;
   margin-bottom: 0;
 }
 .footer__logo h2 {
-  font-family: 'cairo-regular';
+  font-family: "cairo-regular";
   color: #666ee8;
   margin-bottom: 0;
 }
@@ -270,7 +282,7 @@ ul {
   transform: translateX(300px);
 }
 .header__nav a {
-  font-size: 14px;
+  font-size: 1em;
   color: #222831;
   margin-bottom: 20px;
   letter-spacing: 0.4px;
@@ -794,7 +806,6 @@ ul {
   font-weight: normal;
   font-size: 14px;
   color: rgba(34, 40, 49, 0.5);
-  text-align: right;
   width: 100%;
   letter-spacing: 0.4px;
 }
@@ -876,7 +887,7 @@ ul {
   font-size: 14px;
   font-family: "cairo-semibold";
   letter-spacing: 0.4px;
-  margin: 30px 0 0 auto;
+  margin: 30px auto 0 0;
 }
 .form__btn:hover {
   color: #fff;
@@ -1017,7 +1028,6 @@ ul {
   padding-bottom: 30px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
   align-items: center;
 }
 .profile__head img {
@@ -1035,13 +1045,10 @@ ul {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
 }
 .profile__nav a {
   font-size: 16px;
   line-height: 36px;
-  text-align: right;
   letter-spacing: 0.4px;
   color: rgba(34, 40, 49, 0.8);
 }
@@ -1069,7 +1076,7 @@ ul {
   font-size: 14px;
   font-family: "cairo-semibold";
   letter-spacing: 0.4px;
-  margin: 64px 0 0 auto;
+  margin: 64px auto 0 0;
 }
 .profile__btn:hover {
   color: #222831;
@@ -1084,7 +1091,7 @@ ul {
   padding: 40px 0;
 }
 .page__logo h2 {
-  font-family: 'cairo-regular';
+  font-family: "cairo-regular";
   color: #666ee8;
   margin-bottom: 0;
 }
