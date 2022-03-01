@@ -92,7 +92,10 @@ class Handler:
             channel_layer.group_send)(
             "notifier",
             {"type": "send.notification", "id": str(post.id),
-             "thumnail_photo": post.thumnail_photo, "title": post.title})
+             "thumnail_photo": post.thumnail_photo, "title": post.title,
+             "created_at": post.created_at.strftime('%b %d, %Y'),
+             "author_screen_name": post.author_screen_name,
+             "rtl": post.rtl})
 
     @classmethod
     def __add_post_to_user(cls, post, user_id):

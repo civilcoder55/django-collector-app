@@ -146,11 +146,10 @@ $(document).ready(function () {
     return false;
   }
 
-  document.querySelectorAll(".description-block").forEach((e) => {
+  document.querySelectorAll(".author__description").forEach((e) => {
     if (isUnicode(e.innerText)) {
       e.style.direction = "rtl";
+      document.querySelector(".author__block").classList.add("author__block__rtl");
     }
   });
 });
-
-

@@ -7,7 +7,6 @@ socket.onopen = function open() {
 socket.onmessage = function recieve(message) {
   const data = JSON.parse(message.data);
   const post = data.event;
-  console.log(post);
   $.notifyClose();
   $.notify(
     {
@@ -38,9 +37,10 @@ socket.onmessage = function recieve(message) {
                 ${post.thumnail_photo}
               </div>
               <div class="post__meta">
-                <span>now</span>
+                  <span>${post.created_at}</span>
+                  <span>author : ${post.author_screen_name}</span>
               </div>
-              <h3 class="post__title">${post.title}</h3>
+              <h3 class="post__title" ${post.rtl ? 'style="direction: rtl; text-align: right;"' : ""}">${post.title}</h3>
               <div class="post__wrap">
                 <a href="/post/${post.id}" class="post__link">Read more</a>
                 <div class="post__comments">
