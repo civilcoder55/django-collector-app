@@ -1,18 +1,14 @@
-*.pyc
 .vscode
-collector/
-avatars/
-data.json
-daphne.sh
-TwitterBot.json
 database/
 staticfiles/
 dumps/
+src/media/avatars/*
+!src/media/avatars/default.jpg
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.pyc
 # C extensions
 *.so
 
