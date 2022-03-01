@@ -9,7 +9,7 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
             await self.accept()
             print(f"Added {self.channel_name} channel to notifier")
 
-    async def disconnect(self):
+    async def disconnect(self,status_code):
         await self.channel_layer.group_discard("notifier", self.channel_name)
         print(f"Removed {self.channel_name} channel to notifier")
 
