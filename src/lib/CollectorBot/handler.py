@@ -1,5 +1,6 @@
 
 
+import requests
 import tweepy
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
@@ -54,7 +55,8 @@ class Handler:
 
                 thread_tweets_ids = Grabber.grab_thread_tweets_ids(id)
                 if len(thread_tweets_ids) > 0:
-                    content = ['<div class="tw-block">'+thread.full_text+'</div>']
+                    content = [
+                        '<div class="tw-block">'+thread.full_text+'</div>']
                     for tweet_id in thread_tweets_ids:
                         tweet = cls.tweepy_client.get_status(
                             tweet_id, tweet_mode='extended')
@@ -62,9 +64,9 @@ class Handler:
                             break
                         Cleaner.clean_tweet(tweet)
                         content.append(
-                            '<div class="tw-block">' + tweet.full_text+'</div>')
+                            '<div class="tw-block">' + tweet.full_text +
+                            '</div>')
                     content = ''.join(content)
-
 
                     post = Post.objects.create(
                         id=id, content=content, author_name=author_name,
@@ -103,12 +105,14 @@ class Handler:
     def __reply_to_status(cls, status, old=False):
         if settings.APP_ENV == "dev":
             if old:
-                reply = f''' @{status.user.screen_name} 🧵 already saved locally '''
+                reply = f''' @{status.user.screen_name} 🧵 already saved locally 🧵'''
             else:
-                reply = f''' @{status.user.screen_name} 🧵 saved locally '''
+                reply = f''' @{status.user.screen_name} 🧵 saved locally 🧵'''
         else:
             path = reverse('post', args=(status.in_reply_to_status_id,))
-            reply = f''' @{status.user.screen_name} here your requested 🧵 {settings.APP_URL}{path} '''
+            r = requests.get(
+                f'https://tinyurl.com/api-create.php?source=create&url={settings.APP_URL}{path}')
+            reply = f''' @{status.user.screen_name} 🧵 {r.text} 🧵 '''
 
         cls.tweepy_client.update_status(
             status=reply, in_reply_to_status_id=status.id)
