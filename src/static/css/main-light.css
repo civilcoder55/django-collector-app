@@ -581,6 +581,12 @@ ul {
 .tw-block a {
   direction: ltr !important;
 }
+.tw-block video {
+  width: 100%;
+}
+.tw-block iframe {
+  width: 100%;
+}
 .article__list {
   margin-top: 30px;
   text-align: right;
