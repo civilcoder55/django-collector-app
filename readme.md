@@ -11,10 +11,25 @@
 ## Screenshots
 
 <img src="screenshots/3FnDyDJ22N.gif">
-<img src="screenshots/2020-09-22_204753.png">
-<img src="screenshots/2020-09-22_204856.png">
-<img src="screenshots/2020-09-22_205014.png">
-<img src="screenshots/2020-09-22_204839.png">
+<h3 align="center">folder structure</h3>
+<p align="center"><img src="screenshots/0.png"></p>
+<br>
+<h3 align="center">different screenshots</h3>
+<h3 align="center">Dark</h3>
+<p align="center"><img src="screenshots/1.png"></p>
+<p align="center"><img src="screenshots/2.png"></p>
+<h3 align="center">Light</h3>
+<p align="center"><img src="screenshots/3.png"></p>
+<h3 align="center">Mobile</h3>
+<p align="center"><img src="screenshots/4.png"></p>
+<h3 align="center">PDF</h3>
+<p align="center"><img src="screenshots/5.png"></p>
+<h3 align="center">Settings</h3>
+<p align="center"><img src="screenshots/6.png"></p>
+<p align="center"><img src="screenshots/7.png"></p>
+<h3 align="center">Bot logs</h3>
+<p align="center"><img src="screenshots/8.png"></p>
+<br>
 
 ## Usage
 
@@ -29,14 +44,15 @@
    ```sh
    cp .env.example .env
    ```
+3. you may need to edit some configurations in docker-compose.yml like ports
 
-3. run containers
+4. run containers
 
    ```sh
    docker-compose up -d
    ```
 
-4. access website at
+5. access website at
    ```sh
    http://127.0.0.1:8000
    ```
