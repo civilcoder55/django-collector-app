@@ -12,6 +12,8 @@ class StreamListener(tweepy.Stream):
         super().__init__(**settings.TWITTER_SECRETS)
 
     def on_status(self, status):
+        if hasattr(status, 'extended_tweet') and status.extended_tweet.get('full_text'):
+            status.text = status.extended_tweet.get('full_text')
         if 'collect' in status.text.lower().split(" "):
             add_status_to_queue.delay(status)
             logger.info(f"New mention added to worker queue")
