@@ -10,7 +10,9 @@
 
 ## Screenshots
 
-<img src="screenshots/3FnDyDJ22N.gif">
+<!-- <img src="screenshots/3FnDyDJ22N.gif"> -->
+<h3 align="center">Twitter Bot</h3>
+<p align="center"><img src="screenshots/9.png"></p>
 <h3 align="center">folder structure</h3>
 <p align="center"><img src="screenshots/0.png"></p>
 <br>
