@@ -4,6 +4,9 @@ staticfiles/
 dumps/
 src/media/avatars/*
 !src/media/avatars/default.jpg
+docker-compose-production.yml
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
