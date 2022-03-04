@@ -144,17 +144,10 @@ def view_pdf(request, id):
 
 
 async def download_pdf(request, id):
-    # get view_pdf path => /pdf/view/1221554458
-    # path = reverse('view_pdf', args=(id,))
-    # pdf = pdfkit.from_url(f'{settings.APP_URL}{path}')
-    # response = HttpResponse(pdf, content_type='application/pdf')
-    # response['Content-Disposition'] = f'attachment; filename="{str(id)}.pdf"'
-    # return response
-
-    browser = await launch(options={'args': ['--no-sandbox']}, handleSIGINT=False, handleSIGTERM=False, handleSIGHUP=False)
+    browser = await launch(options={'ignoreHTTPSErrors':True,'args': ['--no-sandbox']}, handleSIGINT=False, handleSIGTERM=False, handleSIGHUP=False)
     page = await browser.newPage()
     path = reverse('view_pdf', args=(id,))
-    await page.goto(f'{settings.APP_URL}{path}')
+    await page.goto(f'{settings.PDF_URL}{path}')
     pdf = await page.pdf({"format": 'A4'})
     await browser.close()
     response = HttpResponse(pdf, content_type='application/pdf')

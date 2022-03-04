@@ -9,7 +9,7 @@ CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS").split(" ")
 # CUSTOM DJANGO APPLICATION CONFIGS VARIABLES
 APP_ENV = os.environ.get("APP_ENV")
 APP_URL = os.environ.get("APP_URL")
-
+PDF_URL = os.environ.get("PDF_URL")
 
 # REDIS
 REDIS_HOST = os.environ.get('REDIS_HOST')
