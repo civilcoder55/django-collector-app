@@ -206,12 +206,12 @@ LOGGING = {
         'collectorfile': {
             'class': 'logging.FileHandler',
             "formatter": "verbose",
-            'filename': './collector.log',
+            'filename': './logs/collector.log',
         },
         'djangofile': {
             'class': 'logging.FileHandler',
             "formatter": "verbose",
-            'filename': './django.log',
+            'filename': './logs/django.log',
         },
     },
     "loggers": {
