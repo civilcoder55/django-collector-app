@@ -45,7 +45,7 @@
 <body {% if post.rtl is True %} style="direction: rtl;" {% endif %}>
   <div class="col-12" style="margin-top: 50px;">
     <div class="article" style="text-align: center;">
-      {{post.content|safe}}
+      {{post.content|safe|linebreaks}}
     </div>
   </div>
 </body>

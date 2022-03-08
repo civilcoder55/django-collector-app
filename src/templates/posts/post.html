@@ -72,7 +72,7 @@
 
             <ul class="article__meta">
               <li>
-                <span><a href="https://twitter.com/{{post.author_name}}/status/{{post.id}}" target="_blank">Original
+                <span><a href="https://twitter.com/{{post.author_screen_name}}/status/{{post.id}}" target="_blank">Original
                     tweet</a></span>
               </li>
               <li>
@@ -106,7 +106,7 @@
             </ul>
           </div>
 
-          {{post.content|safe}}
+          {{post.content|safe|linebreaks}}
           <div class="article__actions">
             <a href="{% url 'download_pdf' id=post.id %}" class="article__pdf"><svg xmlns="http://www.w3.org/2000/svg"
                 width="512" height="512" viewBox="0 0 512 512">
