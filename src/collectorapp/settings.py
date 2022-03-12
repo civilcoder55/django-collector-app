@@ -1,5 +1,6 @@
-# import all config variables
 import os
+
+import collectorapp.sentry
 
 from .config import *
 
